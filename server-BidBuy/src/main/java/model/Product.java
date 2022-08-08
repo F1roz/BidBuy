@@ -48,7 +48,7 @@ public class Product {
 //        this.sellerId = sellerId;
 //    }
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seller_id")
     private User user;

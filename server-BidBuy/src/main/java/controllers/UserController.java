@@ -40,6 +40,27 @@ public class UserController {
     }
     @RequestMapping ("/count")
     public Integer getAllCount(){return this.userService.getAllCount();}
+    @RequestMapping ("/getById")
+    public User getById(@RequestParam(name = "id",required = true) int id){
+        return this.userService.getById(id);
+    }
+    @RequestMapping ("/getByName")
+    public User getByName(@RequestParam(name = "name",required = true) String name){
+        return this.userService.getByUsername(name);
+    }
+    @RequestMapping("/delete")
+    public void delete(@RequestParam(name = "id",required = true) int id){
+        this.userService.delete(id);
+    }
+    @RequestMapping("/update")
+    public void update(User user){
+        this.userService.update(user);
+    }
+    @RequestMapping("/save")
+    public void save(User user){
+        this.userService.save(user);
+    }
+
 
 
 }
