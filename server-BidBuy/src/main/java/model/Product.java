@@ -1,4 +1,6 @@
 package model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,8 +13,8 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "catagory")
-    private String catagory;
+    @Column(name = "category")
+    private String category;
 
     @Column(name = "status")
     private String status;
@@ -35,7 +37,19 @@ public class Product {
     @Column(name = "image")
     private String image;
 
-    @ManyToOne
+//    @Column(name = "seller_id")
+//    private int sellerId;
+//
+//    public int getSellerId() {
+//        return sellerId;
+//    }
+//
+//    public void setSellerId(int sellerId) {
+//        this.sellerId = sellerId;
+//    }
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seller_id")
     private User user;
 
@@ -63,12 +77,12 @@ public class Product {
         this.name = name;
     }
 
-    public String getCatagory() {
-        return catagory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCatagory(String catagory) {
-        this.catagory = catagory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getStatus() {

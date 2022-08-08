@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;;import java.util.List;
 
 @Entity
@@ -24,7 +26,10 @@ public class User {
 
     @Column(name = "type")
     private String type;
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Product> products;
 
     public List<Product> getProducts() {

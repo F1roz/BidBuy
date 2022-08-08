@@ -3,6 +3,7 @@ package dao;
 import model.Product;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Repository
@@ -13,6 +14,7 @@ public class ProductDaoImpl implements ProductDao {
         this.sessionFactory = sessionFactory;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Product> getAll(int page, int viewPerPage) {
         return this
