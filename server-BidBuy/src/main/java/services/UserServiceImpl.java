@@ -2,6 +2,8 @@ package services;
 
 
 import dao.UserDao;
+import dao.ProductDao;
+import model.Product;
 import model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,5 +56,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(int id) {
         userDao.delete(id);
+    }
+
+    @Override
+    public Product getProduct(Product product) {
+        return null;
     }
 }

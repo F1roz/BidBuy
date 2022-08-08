@@ -1,6 +1,7 @@
 package model;
 
-import javax.persistence.*;;
+import javax.persistence.*;;import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -23,6 +24,16 @@ public class User {
 
     @Column(name = "type")
     private String type;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     public int getId() {
         return id;

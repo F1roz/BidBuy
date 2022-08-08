@@ -1,4 +1,5 @@
 package services;
+import model.Product;
 import model.User;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,6 +16,8 @@ public interface UserService {
     public void save(User user);
     public void update(User user);
     public void delete(int id);
+
+    public Product getProduct(Product product);
 
 
 }
