@@ -1,16 +1,17 @@
 package services;
+import dtos.UserDto;
 import model.Product;
 import model.User;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 public interface UserService {
-    public List<User> getAll(
+    public List<UserDto> getAll(
             @RequestParam(name = "page",required = false) int page,
             @RequestParam(name = "view",required = false) int viewPerPage
     );
     public Integer getAllCount();
-    public User getById(int id);
+    public UserDto getById(int id);
     public User getByEmail(String email);
     public User getByUsername(String username);
     public void save(User user);

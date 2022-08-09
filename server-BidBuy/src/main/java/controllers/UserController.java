@@ -1,16 +1,15 @@
 package controllers;
 
+import dtos.UserDto;
 import model.User;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import services.UserService;
 import utils.NumberUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -27,21 +26,22 @@ public class UserController {
         webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
     @RequestMapping("/")
-    public List<User> getAll(
+    public List<UserDto> getAll(
             @RequestParam(name = "page",required = false) String page,
             @RequestParam(name = "view",required = false) String viewPerPage
     ){
         int pageNo = NumberUtils.stringToNumOrNeg(page);
         int view = NumberUtils.stringToNumOrNeg(viewPerPage);
-        return this.userService.getAll(
-                Math.max(pageNo, 1),
-                Math.max(view, 10)
-        );
+        return this.userService
+                .getAll(
+                    Math.max(pageNo, 1),
+                    Math.max(view, 10)
+                );
     }
     @RequestMapping ("/count")
     public Integer getAllCount(){return this.userService.getAllCount();}
-    @RequestMapping ("/getById")
-    public User getById(@RequestParam(name = "id",required = true) int id){
+    @RequestMapping ("/{id}")
+    public UserDto getById(@PathVariable(name = "id",required = true) int id){
         return this.userService.getById(id);
     }
     @RequestMapping ("/getByName")

@@ -3,12 +3,15 @@ package services;
 
 import dao.UserDao;
 import dao.ProductDao;
+import dtos.UserDto;
 import model.Product;
 import model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -19,8 +22,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> getAll(int page, int viewPerPage) {
-       return userDao.getAll(page,viewPerPage);
+    public List<UserDto> getAll(int page, int viewPerPage) {
+       return userDao.getAll(page,viewPerPage).stream().map(UserDto::fromDbWithRelations).collect(Collectors.toList());
     }
 
     @Override
@@ -29,8 +32,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(int id) {
-        return userDao.getById(id);
+    public UserDto getById(int id) {
+        return UserDto.fromDbWithRelations(userDao.getById(id));
     }
 
     @Override

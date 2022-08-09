@@ -1,11 +1,14 @@
 package services;
 
 import dao.ProductDao;
+import dtos.ProductDto;
 import model.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
@@ -14,16 +17,16 @@ public class ProductServiceImpl implements ProductService {
         this.productDao = productDao;
     }
     @Override
-    public List<Product> getAll(int page, int viewPerPage) {
-        return productDao.getAll(page,viewPerPage);
+    public List<ProductDto> getAll(int page, int viewPerPage) {
+        return productDao.getAll(page,viewPerPage).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
     }
     @Override
     public Integer getAllCount() {
         return productDao.getAllCount();
     }
     @Override
-    public Product getById(int id) {
-        return productDao.getById(id);
+    public ProductDto getById(int id) {
+        return ProductDto.fromDbWithRelations(productDao.getById(id));
     }
     @Override
     public Product getByName(String name) {

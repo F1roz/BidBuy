@@ -28,7 +28,7 @@ public class User {
     private String type;
 
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Product> products;
 
