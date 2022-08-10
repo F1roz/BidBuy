@@ -19,6 +19,6 @@ public interface UserService {
     public void delete(int id);
 
     public Product getProduct(Product product);
-
+    public User authenticateUser(String usernameOrPassword, String password);
 
 }

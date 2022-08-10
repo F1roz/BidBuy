@@ -13,4 +13,5 @@ public interface UserDao {
     public void save(User user);
     public void update(User user);
     public void delete(int id);
+    public User authenticateUser(String usernameOrEmail, String password);
 }

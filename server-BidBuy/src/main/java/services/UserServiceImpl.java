@@ -65,4 +65,9 @@ public class UserServiceImpl implements UserService {
     public Product getProduct(Product product) {
         return null;
     }
+
+    @Override
+    public User authenticateUser(String usernameOrPassword, String password){
+        return userDao.authenticateUser(usernameOrPassword,password);
+    }
 }

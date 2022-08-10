@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class UserDaoImpl implements UserDao {
     private final SessionFactory sessionFactory;
@@ -62,4 +64,16 @@ public class UserDaoImpl implements UserDao {
         session.delete(session.get(User.class,id));
     }
 
+    @Override
+    public User authenticateUser(String usernameOrEmail, String password){
+        return this.
+                sessionFactory.
+                getCurrentSession().
+                createQuery("FROM User where (username=:usernameOrEmail or email=:usernameOrEmail) and password=:password",User.class).
+                setParameter("usernameOrEmail",usernameOrEmail).
+                setParameter("password",password).
+                stream().
+                findFirst().
+                orElse(null);
+    }
 }

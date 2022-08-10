@@ -2,6 +2,8 @@ package config;
 
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import interceptors.OnlyAdmin;
+import interceptors.OnlyUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -23,6 +26,12 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"controllers","model","dao","services"})
 public class AppConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new OnlyAdmin()).addPathPatterns("/user/**");
+        registry.addInterceptor(new OnlyUser()).addPathPatterns("/product/**");
+    }
 
     @Bean
     public DataSource dataSource() {
