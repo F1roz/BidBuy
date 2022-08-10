@@ -18,7 +18,7 @@ public class InterceptorUtils {
             response.sendError(HttpStatus.FORBIDDEN.value(),"Unauthenticated");
             return false;
         }
-        if(!payloadDto.getType().equalsIgnoreCase("admin")){
+        if(!payloadDto.getType().equalsIgnoreCase(userType)){
             response.sendError(HttpStatus.UNAUTHORIZED.value(),"Unauthorized");
             return false;
         }
