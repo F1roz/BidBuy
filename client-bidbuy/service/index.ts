@@ -4,8 +4,9 @@ import { baseApiUrl } from "../consts";
 
 export const service = (context: GetServerSidePropsContext | null = null) =>
   axios.create({
-    baseURL: `${baseApiUrl}`,
+    baseURL: `${baseApiUrl}/`,
     headers: {
-      token: context == null ? "" : context.req.cookies.Authorization ?? "",
+      Authorization:
+        context == null ? "" : context.req.cookies.Authorization ?? "",
     },
   });
