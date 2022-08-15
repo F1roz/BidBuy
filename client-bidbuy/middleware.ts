@@ -28,13 +28,16 @@ export async function middleware(req: NextRequest) {
   // }
   if (req.url.includes("/auth")) {
     console.log("auth");
-    if (!Authorization) return NextResponse.next();
-    if (currentUser)
-      return NextResponse.redirect(
-        `${baseUrl}dashboard/${currentUser.toLowerCase()}`,
-        301
-      );
-    return NextResponse.next();
+    if (Authorization) {
+      try {
+        return NextResponse.redirect(
+          `${baseUrl}dashboard/${currentUser.toLowerCase()}`,
+          301
+        );
+      } catch (e) {
+        return NextResponse.redirect(new URL("/auth/login", req.url));
+      }
+    }
   }
   if (req.url.includes("/dashboard")) {
     console.log("dashboard");
@@ -42,22 +45,26 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
     try {
-      const currentUser = await currUserRes.text();
-      const validUrl = `/dashboard/${(currentUser as string).toLowerCase()}`;
+      const validUrl = `/dashboard/${currentUser.toLowerCase()}`;
+      // if (validUrl !== req.url) {
+      //   return NextResponse.redirect(new URL(validUrl, req.url));
+      // }
       // if (currentUser === "admin") {
       //   return NextResponse.next();
       // }
       // if (currentUser === "user") {
       //   return NextResponse.redirect(new URL("/dashboard/user", req.url));
       // }
-      if (!Authorization) {
-        return NextResponse.redirect(new URL("/auth/login", req.url));
-      }
+      // if (!Authorization) {
+      //   return NextResponse.redirect(new URL("/auth/login", req.url));
+      // }
+      
+      return NextResponse.next();
     } catch (e) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
   }
-  return NextResponse.next();
+  // return NextResponse.next();
 }
 export const config = {
   matcher: ["/dashboard/:path*", "/auth/:path*"],

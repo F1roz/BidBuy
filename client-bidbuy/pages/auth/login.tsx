@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import React from "react";
 import useInput from "../../hooks/useInput";
 import { service } from "../../service";
-import { setCookie, getCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -19,9 +19,9 @@ const SignInPage: NextPage = () => {
       setCookie("Authorization", response);
       console.log(response);
       router.reload();
-      if (response) {
-        router.push("/dashboard/");
-      }
+      // if (response) {
+      //   router.push("/dashboard");
+      // }
       // console.log("Authorization: " + response);
       // const hi = getCookie("Authorization")?.toString();
       // console.log("hi: " + hi);
