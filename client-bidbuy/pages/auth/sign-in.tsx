@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import React from "react";
 import useInput from "../../hooks/useInput";
 import { service } from "../../service";
-import Cookies from "js-cookie";
+import { setCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -16,9 +16,11 @@ const SignInPage: NextPage = () => {
         usernameOrEmail: usernameInputController.value,
         password: passwordInputController.value,
       });
-      Cookies.set("Authorization", response);
-      router.reload();
+      setCookie("Authorization", response);
+      // router.reload();
       console.log("Authorization: " + response);
+      const hi = getCookie("Authorization")?.toString();
+      console.log("hi: " + hi);
     } catch (error) {
       console.log("sign-in : ", error);
     }

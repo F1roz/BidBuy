@@ -43,4 +43,23 @@ public class AuthController {
     public ResponseEntity<String> currentRole(@RequestBody AuthPayloadDto authPayloadDto){
         return new ResponseEntity<>(authPayloadDto.getType(),HttpStatus.OK);
     }
+
+    //get token from header
+    //decode token
+    //get user from token
+    //return user
+    @GetMapping("/current-user")
+    public ResponseEntity<AuthPayloadDto> currentUser(@RequestHeader(name = "Authorization") String token){
+        return new ResponseEntity<>(JwtUtils.decode(token),HttpStatus.OK);
+    }
+
+
+    //get token from header
+    //decode token
+    //get user type from token
+    //return user type
+    @GetMapping("/current-user-type")
+    public ResponseEntity<String> currentUserType(@RequestHeader(name = "Authorization") String token){
+        return new ResponseEntity<>(JwtUtils.decode(token).getType(),HttpStatus.OK);
+    }
 }
