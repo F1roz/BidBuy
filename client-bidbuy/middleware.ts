@@ -4,9 +4,9 @@ import { baseApiUrl, baseUrl } from "./consts";
 
 export async function middleware(req: NextRequest) {
   const Authorization = req.cookies.get("Authorization") as string;
-  console.log(
-    "middleaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa   :   " + Authorization
-  );
+  // console.log(
+  //   "middleaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa   :   " + Authorization
+  // );
   // if (!Authorization)
   //   return NextResponse.redirect(new URL("/auth/login", req.url));
   const currUserRes = await fetch(`${baseApiUrl}auth/current-user-type`, {
@@ -27,6 +27,7 @@ export async function middleware(req: NextRequest) {
   //   }
   // }
   if (req.url.includes("/auth")) {
+    console.log("auth");
     if (!Authorization) return NextResponse.next();
     if (currentUser)
       return NextResponse.redirect(
@@ -36,6 +37,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
   if (req.url.includes("/dashboard")) {
+    console.log("dashboard");
     if (Authorization === undefined || Authorization === null) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
