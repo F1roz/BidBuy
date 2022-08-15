@@ -59,7 +59,12 @@ public class AuthController {
     //get user type from token
     //return user type
     @GetMapping("/current-user-type")
-    public ResponseEntity<String> currentUserType(@RequestHeader(name = "Authorization") String token){
-        return new ResponseEntity<>(JwtUtils.decode(token).getType(),HttpStatus.OK);
+    public ResponseEntity<String> currentUserType(@RequestHeader(name = "token") String token){
+        try{
+            return new ResponseEntity<>(JwtUtils.decode(token).getType(),HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+        }
     }
 }

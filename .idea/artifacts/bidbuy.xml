@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="bidbuy">
+    <output-path>$PROJECT_DIR$/out/artifacts/bidbuy</output-path>
+    <root id="root" />
+  </artifact>
+</component>

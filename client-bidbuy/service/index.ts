@@ -6,7 +6,14 @@ export const service = (context: GetServerSidePropsContext | null = null) =>
   axios.create({
     baseURL: `${baseApiUrl}/`,
     headers: {
-      Authorization:
-        context == null ? "" : context.req.cookies.Authorization ?? "",
+      token: context == null ? "" : context.req.cookies.Authorization ?? "",
+    },
+  });
+
+export const jsxService = (token: string) =>
+  axios.create({
+    baseURL: `${baseApiUrl}/`,
+    headers: {
+      token,
     },
   });
