@@ -17,10 +17,14 @@ const SignInPage: NextPage = () => {
         password: passwordInputController.value,
       });
       setCookie("Authorization", response);
-      // router.reload();
-      console.log("Authorization: " + response);
-      const hi = getCookie("Authorization")?.toString();
-      console.log("hi: " + hi);
+      console.log(response);
+      router.reload();
+      if (response) {
+        router.push("/dashboard/");
+      }
+      // console.log("Authorization: " + response);
+      // const hi = getCookie("Authorization")?.toString();
+      // console.log("hi: " + hi);
     } catch (error) {
       console.log("sign-in : ", error);
     }

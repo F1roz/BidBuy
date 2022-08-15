@@ -8,7 +8,7 @@ import Link from "next/link";
 const Home: NextPage = () => {
   return (
     <div>
-      <Link href={`/auth/sign-in`}>Go</Link>
+      <Link href={`/auth/login`}>Go</Link>
     </div>
   );
 };
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  return { props: {}, redirect: { destination: "/auth/sign-in" } };
+  return { props: {}, redirect: { destination: "/auth/login" } };
 };
 
 export default Home;

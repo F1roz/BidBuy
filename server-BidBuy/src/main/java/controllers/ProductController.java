@@ -16,7 +16,7 @@ public class ProductController {
     public ProductController(ProductService productService){
         this.productService = productService;
     }
-    @RequestMapping("/")
+    @GetMapping("/")
     public List<ProductDto> getAll(
             @RequestParam(name = "page",required = false) String page,
             @RequestParam(name = "view",required = false) String viewPerPage
@@ -29,18 +29,18 @@ public class ProductController {
                         Math.max(view, 10)
                     );
     }
-    @RequestMapping ("/count")
+    @GetMapping ("/count")
     public Integer getAllCount(){return this.productService.getAllCount();}
 
-    @RequestMapping ("/{id}")
+    @GetMapping ("/{id}")
     public ProductDto getById(@PathVariable(name = "id",required = true) int id){
         return this.productService.getById(id);
     }
-    @RequestMapping ("/getByIdUser")
+    @GetMapping ("/getByIdUser")
     public UserDto getByIdUser(@RequestParam(name = "id",required = true) int id){
         return this.productService.getById(id).getUser();
     }
-    @RequestMapping ("/getByName")
+    @GetMapping ("/getByName")
     public Product getByName(@RequestParam(name = "name",required = true) String name){
         return this.productService.getByName(name);
     }
