@@ -12,7 +12,7 @@ import utils.JwtUtils;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final UserService userService;
@@ -49,7 +49,7 @@ public class AuthController {
     //get user from token
     //return user
     @GetMapping("/current-user")
-    public ResponseEntity<AuthPayloadDto> currentUser(@RequestHeader(name = "Authorization") String token){
+    public ResponseEntity<AuthPayloadDto> currentUser(@RequestHeader(name = "token") String token){
         return new ResponseEntity<>(JwtUtils.decode(token),HttpStatus.OK);
     }
 

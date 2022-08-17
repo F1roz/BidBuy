@@ -22,6 +22,7 @@ public class InterceptorUtils {
             response.sendError(HttpStatus.UNAUTHORIZED.value(),"Unauthorized");
             return false;
         }
+        response.addHeader("Access-Control-Allow-Origin","*");
         return true;
     }
 }

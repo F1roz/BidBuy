@@ -12,7 +12,7 @@ export const service = (context: GetServerSidePropsContext | null = null) =>
 
 export const jsxService = (token: string) =>
   axios.create({
-    baseURL: `${baseApiUrl}/`,
+    baseURL: `${baseApiUrl}`,
     headers: {
       token,
     },

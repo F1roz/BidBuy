@@ -15,13 +15,14 @@ interface Props {
 
 // export default user;
 const UserDashboard: NextPage<Props> = ({ products: initialProducts }) => {
-  console.log(initialProducts);
+  console.log({ initialProducts });
 
   const [products, setProducts] = useState(initialProducts);
   const [productsRefetcher, setProductsRefetcher] = useState(false);
   useEffect(() => {
     jsxService(getCookie("Authorization")?.toString() || "")
-      .get(`/product/`)
+      // service()
+      .get(`product/`)
       .then((res) => res.data)
       .then(setProducts)
       .catch((err) => {
@@ -44,7 +45,7 @@ export default UserDashboard;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const products = await service(context)
-    .get(`/product/`)
+    .get(`product/`)
     .then((res) => res.data)
     .catch((err) => null);
 

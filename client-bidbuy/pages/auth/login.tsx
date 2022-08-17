@@ -17,7 +17,7 @@ const SignInPage: NextPage = () => {
         password: passwordInputController.value,
       });
       setCookie("Authorization", response);
-      console.log(response);
+      console.log({ response });
       router.reload();
       // if (response) {
       //   router.push("/dashboard");
