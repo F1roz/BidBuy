@@ -59,7 +59,7 @@ public class ProductController {
     public void create(@RequestParam(name = "product",required = true) Product product){
         this.productService.save(product);
     }
-    @PostMapping("/getProductByUserName/{username}")
+    @GetMapping("/getProductByUserName/{username}")
     public List<ProductDto> getProductByUserName(@RequestParam(name = "page",required = false) String page,
                                                   @RequestParam(name = "view",required = false) String viewPerPage,
                                                   @PathVariable(name = "username",required = true) String username){
