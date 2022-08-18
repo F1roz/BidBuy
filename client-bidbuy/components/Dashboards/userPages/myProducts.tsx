@@ -21,10 +21,13 @@ export default function MyProducts() {
   return (
     <>
       <Layout role="user">
-        <div>
-          <h1>My Products</h1>
+      <h1>UserDashboard</h1>
+        <div className="flex justify-between">
+            <h1>My Products</h1>
+            <button className="">Add Product</button>
         </div>
-        <h1>UserDashboard</h1>
+        
+        
         {/* <h1 className="mt-8">Products</h1>
       {isProductsLoading && <p>Loading products...</p>}
       <div className="flex flex-wrap gap-4">
