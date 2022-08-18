@@ -28,6 +28,22 @@ public class ProductDaoImpl implements ProductDao {
                 .setFirstResult(((page-1)*viewPerPage))
                 .getResultList();
     }
+
+    @Override
+    public List<Product> getProductBySellerId(int page, int viewPerPage,int sellerId) {
+        return this
+                .sessionFactory
+                .getCurrentSession()
+                .createQuery(
+                        "FROM Product WHERE seller_id=:sellerId",
+                        Product.class
+                )
+                .setParameter("sellerId",sellerId)
+                .setMaxResults(viewPerPage)
+                .setFirstResult(((page-1)*viewPerPage))
+                .getResultList();
+    }
+
     @Override
     public Integer getAllCount() {
         return this.sessionFactory

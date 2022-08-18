@@ -20,6 +20,13 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> getAll(int page, int viewPerPage) {
         return productDao.getAll(page,viewPerPage).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
     }
+
+    @Override
+    public List<ProductDto> getProductBySellerId(int page, int viewPerPage , int sellerId) {
+
+        return productDao.getProductBySellerId(page,viewPerPage,sellerId).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
+    }
+
     @Override
     public Integer getAllCount() {
         return productDao.getAllCount();

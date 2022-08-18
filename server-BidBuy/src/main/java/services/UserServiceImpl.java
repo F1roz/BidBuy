@@ -5,6 +5,7 @@ import dao.UserDao;
 import dtos.UserDto;
 import model.Product;
 import model.User;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 @Transactional
@@ -30,6 +32,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional(readOnly = true)
     public List<UserDto> getAll(int page, int viewPerPage) {
         return userDao.getAll(page, viewPerPage).stream().map(UserDto::fromDbWithRelations).collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getIdByUsername(String userName) {
+        return userDao.getIdByUsername(userName);
     }
 
     @Override

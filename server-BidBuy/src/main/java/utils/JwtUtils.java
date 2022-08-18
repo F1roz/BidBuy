@@ -27,8 +27,8 @@ public class JwtUtils {
     public static String encodeWithClaims(User user) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 15000))
-//                .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
+//                .withExpiresAt(new Date(System.currentTimeMillis() + 15000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
                 .withClaim("roles", user
                         .getAuthorities()
                         .stream()
@@ -40,7 +40,7 @@ public class JwtUtils {
     public static String encodeWithClaims(model.User user) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 15000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
                 .withClaim("roles", Collections.singletonList(user
                         .getType())
                 )
