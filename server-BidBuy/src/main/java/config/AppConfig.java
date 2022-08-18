@@ -9,11 +9,13 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -21,6 +23,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"controllers", "model", "dao", "services"})
+@MultipartConfig
 public class AppConfig implements WebMvcConfigurer {
 
     @Override
@@ -33,6 +36,13 @@ public class AppConfig implements WebMvcConfigurer {
 //        registry.addInterceptor(new AllowCors()).addPathPatterns("/**");
 //        registry.addInterceptor(new OnlyAdmin()).addPathPatterns("/user/**");
 //        registry.addInterceptor(new OnlyUser()).addPathPatterns("/product/**");
+    }
+
+    @Bean("multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setMaxUploadSize(10000000);
+        return resolver;
     }
 
     @Bean
