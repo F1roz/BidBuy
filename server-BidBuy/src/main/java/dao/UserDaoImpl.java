@@ -24,6 +24,15 @@ public class UserDaoImpl implements UserDao {
                 .setFirstResult(((page-1)*viewPerPage))
                 .getResultList();
     }
+
+    @Override
+    public Integer getIdByUsername(String username) {
+        Session session =this.sessionFactory.getCurrentSession();
+        return session.createQuery("select id from User where username=:username",Integer.class)
+                .setParameter("username",username)
+                .getSingleResult();
+    }
+
     @Override
     public Integer getAllCount() {
         Session session =this.sessionFactory.getCurrentSession();

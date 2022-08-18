@@ -74,6 +74,11 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         this.userService.save(user);
     }
+    @RequestMapping("/getIdByUsername")
+    public int getIdByUsername(@RequestParam(name = "username", required = true) String username) {
+        return this.userService.getIdByUsername(username);
+    }
+
 
 
 }

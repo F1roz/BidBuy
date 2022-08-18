@@ -6,6 +6,7 @@ import useAuthenticatedFetch from "../../hooks/useAuthenticatedFetch";
 import { jsxService } from "../../service";
 import { IProduct } from "../../types";
 import Layout from "../Layout";
+import SideBar from "../Layout/SideBar";
 
 const UserDashboard = () => {
   const { tokenRefreshed, user } = useAuth();

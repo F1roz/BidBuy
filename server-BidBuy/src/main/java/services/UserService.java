@@ -10,6 +10,7 @@ public interface UserService {
             @RequestParam(name = "page",required = false) int page,
             @RequestParam(name = "view",required = false) int viewPerPage
     );
+    public Integer getIdByUsername(String userName);
     public Integer getAllCount();
     public UserDto getById(int id);
     public User getByEmail(String email);

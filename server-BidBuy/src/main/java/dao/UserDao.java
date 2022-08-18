@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserDao {
     public List<User> getAll(int page, int viewPerPage);
+    public Integer getIdByUsername(String username);
     public Integer getAllCount();
     public User getById(int id);
     public User getByEmail(String email);
