@@ -47,6 +47,7 @@ public class AppSecurityConfig {
         http.cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/auth/**").permitAll();
+        http.authorizeRequests().antMatchers("/test/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAnyAuthority("user", "admin");
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").hasAnyAuthority("admin");
         http.authorizeRequests().anyRequest().authenticated();
