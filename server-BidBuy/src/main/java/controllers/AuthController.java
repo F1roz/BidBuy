@@ -59,7 +59,6 @@ public class AuthController {
         JwtPayloadDto payload = JwtUtils.decode(refreshToken);
         model.User dbUser = userService.getByUsername(payload.getUsername());
         String access_token = JwtUtils.encodeWithClaims(dbUser);
-        System.out.println("Token refreshed by : " + dbUser.getUsername());
         return new ResponseEntity<>(HashMapUtils.build(
                 HashMapItem.build("access_token", access_token),
                 HashMapItem.build("refresh_token", refreshToken)

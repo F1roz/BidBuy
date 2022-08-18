@@ -9,8 +9,14 @@ import Layout from "../Layout";
 
 const UserDashboard = () => {
   const { tokenRefreshed, user } = useAuth();
-  const { data: products, isLoading: isProductsLoading } =
-    useAuthenticatedFetch<IProduct[]>("product/", [tokenRefreshed]);
+  const {
+    data: products,
+    isLoading: isProductsLoading,
+    isError,
+    isSuccess,
+    refetch,
+    setData,
+  } = useAuthenticatedFetch<IProduct[]>("product/", [tokenRefreshed]);
   return (
     <Layout role="user">
       <h1>UserDashboard</h1>
