@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { makeId } from "../../../utils/String";
+import { makeId } from "../../../../utils/String";
 
 const SideBarLink = ({
   name,

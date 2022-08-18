@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { IUser } from "../../../types";
-import { randomBetween } from "../../../utils/Number";
+import { IUser } from "../../../../types";
+import { randomBetween } from "../../../../utils/Number";
 import { useRouter } from "next/router";
-
-
 
 const UserList = ({ users }: { users: IUser[] }) => {
   const router = useRouter();
@@ -34,7 +32,7 @@ const UserList = ({ users }: { users: IUser[] }) => {
     datasets: [
       {
         label: "# of Verified Users",
-        
+
         backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
         borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
         borderWidth: 1,
@@ -47,7 +45,7 @@ const UserList = ({ users }: { users: IUser[] }) => {
     datasets: [
       {
         label: "# of role based users",
-       
+
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",

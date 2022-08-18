@@ -1,12 +1,15 @@
 import axios from "axios";
 import { GetServerSidePropsContext } from "next";
-import { baseApiUrl } from "../consts";
+import { ACCESS_TOKEN_COOKIE_KEY, baseApiUrl } from "../consts";
 
 export const service = (context: GetServerSidePropsContext | null = null) =>
   axios.create({
     baseURL: `${baseApiUrl}/`,
     headers: {
-      token: context == null ? "" : context.req.cookies.Authorization ?? "",
+      AUTHORIZATION:
+        context == null
+          ? ""
+          : context.req.cookies[ACCESS_TOKEN_COOKIE_KEY] ?? "",
     },
   });
 
@@ -14,6 +17,10 @@ export const jsxService = (token: string) =>
   axios.create({
     baseURL: `${baseApiUrl}`,
     headers: {
-      token,
+      AUTHORIZATION: token,
     },
   });
+
+export const authService = axios.create({
+  baseURL: `${baseApiUrl}`,
+});

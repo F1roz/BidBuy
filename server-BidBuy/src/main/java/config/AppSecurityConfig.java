@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppSecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
@@ -44,8 +44,9 @@ public class AppSecurityConfig {
 //        authenticationManagerBuilder.userDetailsService(userDetailsService);
 
         http.csrf().disable();
-        http.cors().disable();
+        http.cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers("/auth/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAnyAuthority("user", "admin");
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").hasAnyAuthority("admin");
         http.authorizeRequests().anyRequest().authenticated();

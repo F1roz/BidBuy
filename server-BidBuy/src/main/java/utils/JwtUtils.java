@@ -8,6 +8,7 @@ import dtos.JwtPayloadDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -26,11 +27,22 @@ public class JwtUtils {
     public static String encodeWithClaims(User user) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 86400000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 15000))
+//                .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
                 .withClaim("roles", user
                         .getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList())
+                )
+                .sign(Algorithm.HMAC256(keyStr.getBytes()));
+    }
+
+    public static String encodeWithClaims(model.User user) {
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 15000))
+                .withClaim("roles", Collections.singletonList(user
+                        .getType())
                 )
                 .sign(Algorithm.HMAC256(keyStr.getBytes()));
     }

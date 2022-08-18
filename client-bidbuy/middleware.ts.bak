@@ -1,0 +1,68 @@
+import { NextRequest, NextResponse } from "next/server";
+import {
+  ACCESS_TOKEN_COOKIE_KEY,
+  baseApiUrl,
+  baseUrl,
+  REFRESH_TOKEN_COOKIE_KEY,
+} from "./consts";
+
+export async function middleware(req: NextRequest) {
+  const Authorization = req.cookies.get(ACCESS_TOKEN_COOKIE_KEY) as string;
+  const currUserRes = await fetch(`${baseApiUrl}auth/current-user`, {
+    headers: [["Authorization", Authorization]],
+  });
+
+  const currUser = await currUserRes.json();
+
+  console.log({ currUser, status: currUserRes.status });
+
+  if (
+    currUserRes.status === 400 &&
+    (currUser.message as string).startsWith("The Token has expired on")
+  ) {
+    console.log("IN");
+
+    const refreshTokenRes = await fetch(`${baseApiUrl}auth/refresh-token`, {
+      headers: {
+        "Refresh-Token": req.cookies.get(REFRESH_TOKEN_COOKIE_KEY) || "",
+      },
+    });
+    const tokens = await refreshTokenRes.json();
+    console.log({ tokens });
+
+    if (refreshTokenRes.status < 400) {
+      // setCookie(ACCESS_TOKEN_COOKIE_KEY, tokens.access_token);
+      // setCookie(REFRESH_TOKEN_COOKIE_KEY, tokens.refresh_token);
+
+      return NextResponse.redirect(new URL("/auth/login", req.url))
+        .cookies.set(ACCESS_TOKEN_COOKIE_KEY, tokens.access_token)
+        .set(REFRESH_TOKEN_COOKIE_KEY, tokens.refresh_token);
+    }
+    return NextResponse.redirect(new URL("/auth/login", req.url));
+  }
+  // return NextResponse.next();
+
+  // console.log({ currUserRes });
+  // console.log({ currUserRes });
+
+  // return NextResponse.next();
+
+  if (req.url.includes("/auth")) {
+    if (currUserRes.status < 400)
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.next();
+  }
+
+  if (req.url.includes("/dashboard")) {
+    if (currUserRes.status >= 400)
+      return NextResponse.redirect(new URL("/auth/login", req.url));
+    const validUrl = `http://${req.headers.get(
+      "host"
+    )}/dashboard/${currUser.roles[0].toLowerCase()}`;
+    if (req.url === validUrl) return NextResponse.next();
+    return NextResponse.redirect(validUrl);
+  }
+}
+export const config = {
+  matcher: ["/dashboard/:path*", "/auth/:path*"],
+};

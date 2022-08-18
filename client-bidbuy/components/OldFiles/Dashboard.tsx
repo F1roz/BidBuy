@@ -1,7 +1,7 @@
 import React from "react";
 import { makeId } from "../../utils/String";
-import SideBarLink from "../Dashboard/Common/SideBarLink";
-import SideBarLogout from "../Dashboard/Common/SideBarLogout";
+import SideBarLink from "./Dashboard/Common/SideBarLink";
+import SideBarLogout from "./Dashboard/Common/SideBarLogout";
 
 const DashboardLayout = ({
   tabs,
