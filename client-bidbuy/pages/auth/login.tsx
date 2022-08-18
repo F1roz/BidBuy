@@ -12,13 +12,13 @@ const SignInPage: NextPage = () => {
   const router = useRouter();
   const handleLogin = async () => {
     try {
-      const { data: response } = await service().post(`auth/login`, {
-        usernameOrEmail: usernameInputController.value,
-        password: passwordInputController.value,
-      });
-      setCookie("Authorization", response);
+      const formData = new FormData();
+      formData.append("username", usernameInputController.value);
+      formData.append("password", passwordInputController.value);
+      const { data: response } = await service().post(`login`, formData);
+      // setCookie("Authorization", response);
       console.log({ response });
-      router.reload();
+      // router.reload();
       // if (response) {
       //   router.push("/dashboard");
       // }

@@ -2,8 +2,6 @@ package config;
 
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import interceptors.OnlyAdmin;
-import interceptors.OnlyUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +9,10 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -21,18 +20,19 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"controllers","model","dao","services"})
+@ComponentScan(basePackages = {"controllers", "model", "dao", "services"})
 public class AppConfig implements WebMvcConfigurer {
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/product/**").allowedOrigins("*");
-//    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*");
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new OnlyAdmin()).addPathPatterns("/user/**");
-        registry.addInterceptor(new OnlyUser()).addPathPatterns("/product/**");
+//        registry.addInterceptor(new AllowCors()).addPathPatterns("/**");
+//        registry.addInterceptor(new OnlyAdmin()).addPathPatterns("/user/**");
+//        registry.addInterceptor(new OnlyUser()).addPathPatterns("/product/**");
     }
 
     @Bean
