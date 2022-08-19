@@ -53,4 +53,14 @@ public class JwtUtils {
                 .withExpiresAt(new Date(System.currentTimeMillis() + 86400000))
                 .sign(Algorithm.HMAC256(keyStr.getBytes()));
     }
+
+    public static JwtPayloadDto getLoggedInUser(String Authorization) {
+        if (Authorization == null) return null;
+        try {
+            return decode(Authorization);
+        } catch (Exception e) {
+            System.out.println("Error getting logged in user : " + e.getMessage());
+            return null;
+        }
+    }
 }
