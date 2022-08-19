@@ -5,11 +5,13 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public class BidDaoImpl implements BidDao {
 
     private final SessionFactory sessionFactory;
-    public BidDaoImpl(SessionFactory sessionFactory){
+
+    public BidDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -23,7 +25,7 @@ public class BidDaoImpl implements BidDao {
                         Bid.class
                 )
                 .setMaxResults(viewPerPage)
-                .setFirstResult(((page-1)*viewPerPage))
+                .setFirstResult(((page - 1) * viewPerPage))
                 .getResultList();
     }
 
@@ -31,22 +33,22 @@ public class BidDaoImpl implements BidDao {
     public Integer getAllCount() {
         return this.sessionFactory
                 .getCurrentSession()
-                .createQuery("from Bid",Bid.class).getResultList().size();
+                .createQuery("from Bid", Bid.class).getResultList().size();
     }
 
     @Override
     public Bid getById(int id) {
         return this.sessionFactory
                 .getCurrentSession()
-                .get(Bid.class,id);
+                .get(Bid.class, id);
     }
 
     @Override
     public Bid getByProductId(int productId) {
         return this.sessionFactory
                 .getCurrentSession()
-                .createQuery("from Bid where productId=:productId",Bid.class)
-                .setParameter("productId",productId)
+                .createQuery("from Bid where productId=:productId", Bid.class)
+                .setParameter("productId", productId)
                 .getSingleResult();
     }
 
@@ -54,8 +56,8 @@ public class BidDaoImpl implements BidDao {
     public Bid getBySellerId(int SellerId) {
         return this.sessionFactory
                 .getCurrentSession()
-                .createQuery("from Bid where sellerId=:sellerId",Bid.class)
-                .setParameter("sellerId",SellerId)
+                .createQuery("from Bid where sellerId=:sellerId", Bid.class)
+                .setParameter("sellerId", SellerId)
                 .getSingleResult();
     }
 

@@ -1,8 +1,9 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.*;
+import java.util.List;
 
-import javax.persistence.*;;import java.util.List;
+;
 
 @Entity
 @Table(name = "users")
@@ -28,8 +29,8 @@ public class User {
     private String type;
 
 
-//    @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    //    @JsonIgnore
+    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
     private List<Product> products;
 
     public List<Product> getProducts() {
@@ -87,6 +88,7 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
+
     @Override
     public String toString() {
         return "User{" +

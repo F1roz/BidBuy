@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../Layout";
+import Layout from "../../Layout";
 
 const AdminDashboard = () => {
   return <Layout role="admin">AdminDashboard</Layout>;

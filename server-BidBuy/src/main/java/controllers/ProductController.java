@@ -4,6 +4,7 @@ import dtos.JwtPayloadDto;
 import dtos.ProductDto;
 import dtos.UserDto;
 import model.Product;
+import model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +56,7 @@ public class ProductController {
 
     @GetMapping("/getByIdUser")
     public UserDto getByIdUser(@RequestParam(name = "id", required = true) int id) {
-        return this.productService.getById(id).getUser();
+        return this.productService.getById(id).getSeller();
     }
 
     @GetMapping("/getByName")
@@ -79,6 +80,11 @@ public class ProductController {
         if (loggedInUser == null) return new ResponseEntity<>(HashMapUtils.build(
                 HashMapItem.build("message", "Unauthenticated")
         ), HttpStatus.UNAUTHORIZED);
+        User seller = userService.getByUsername(loggedInUser.getUsername());
+        if (seller == null) return new ResponseEntity<>(HashMapUtils.build(
+                HashMapItem.build("message", "User not found in db")
+        ), HttpStatus.BAD_REQUEST);
+        product.setSeller(seller);
         this.productService.save(product);
         return new ResponseEntity<>(HashMapUtils.build(HashMapItem.build("product", product)), HttpStatus.CREATED);
     }

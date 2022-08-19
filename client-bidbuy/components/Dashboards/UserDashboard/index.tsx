@@ -71,11 +71,10 @@ const Productitem = ({ p }: { p: IProduct }) => {
           </button>
         </div>
       </div>
-      {showModal && (
-        <div>
-          <QRModal id={p.id} setShow={setShowModal} />
-        </div>
-      )}
+
+      <div>
+        <QRModal id={p.id} setShow={setShowModal} showModal={showModal} />
+      </div>
     </div>
   );
 };
