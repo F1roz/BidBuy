@@ -1,12 +1,16 @@
 package dtos;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import model.Product;
 
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductDto {
     private int id;
 
@@ -22,7 +26,7 @@ public class ProductDto {
 
     private String description;
 
-    private String buyer_id;
+    private UserDto buyer;
 
     private String created_at;
 
@@ -39,7 +43,7 @@ public class ProductDto {
                 product.getPrice(),
                 product.getSell_price(),
                 product.getDescription(),
-                product.getBuyer_id(),
+                null,
                 product.getCreated_at(),
                 product.getImage(),
                 null
@@ -49,6 +53,7 @@ public class ProductDto {
     public static ProductDto fromDbWithRelations(Product product) {
         ProductDto productDto = ProductDto.fromDb(product);
         productDto.setSeller(UserDto.fromDb(product.getSeller()));
+        productDto.setBuyer(UserDto.fromDb(product.getBuyer()));
         return productDto;
     }
 }

@@ -30,8 +30,9 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "buyer_id")
-    private String buyer_id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "buyer_id")
+    private User buyer;
 
     @Column(name = "created_at")
     private String created_at;
@@ -39,18 +40,6 @@ public class Product {
     @Column(name = "image")
     private String image;
 
-//    @Column(name = "seller_id")
-//    private int sellerId;
-//
-//    public int getSellerId() {
-//        return sellerId;
-//    }
-//
-//    public void setSellerId(int sellerId) {
-//        this.sellerId = sellerId;
-//    }
-
-    //    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seller_id")
     private User seller;
