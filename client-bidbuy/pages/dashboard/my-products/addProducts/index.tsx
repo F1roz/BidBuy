@@ -1,2 +1,2 @@
-import Add from "../../../../components/Dashboards/userPages/addProducts";
+import Add from "../../../../components/Dashboards/Product/addProducts";
 export default Add;
