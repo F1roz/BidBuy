@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
 import { IProduct } from "../../../types";
@@ -17,6 +18,7 @@ export default function MyProducts() {
     `product/getProductByUserName/${user?.username}`,
     [tokenRefreshed, user]
   );
+  
   console.log(products);
 
   return (

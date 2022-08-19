@@ -1,2 +1,2 @@
-import MyProducts from "../../../components/Dashboards/userPages/myProducts";
+import MyProducts from "../../../components/Dashboards/Product/myProducts";
 export default MyProducts;
