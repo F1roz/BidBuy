@@ -1,5 +1,6 @@
 export const userNavRoutes = [
-  { link: "/my-products", name: "My Products" },
+  { link: "/dashboard", name: "Home" },
+  { link: "/dashboard/my-products", name: "My Products" },
   { link: "/browse-products", name: "Browse Products" },
 ];
 

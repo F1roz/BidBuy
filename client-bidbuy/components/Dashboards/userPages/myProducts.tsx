@@ -1,3 +1,4 @@
+import Link from "next/link";
 import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
 import { IProduct } from "../../../types";
@@ -21,13 +22,17 @@ export default function MyProducts() {
   return (
     <>
       <Layout role="user">
-      <h1>UserDashboard</h1>
+        <h1>UserDashboard</h1>
         <div className="flex justify-between">
-            <h1>My Products</h1>
-            <button className="">Add Product</button>
+          <h1>My Products</h1>
+
+          <Link href={"/dashboard/my-products/addProducts"} passHref>
+            <a className=" focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+              Add Product
+            </a>
+          </Link>
         </div>
-        
-        
+
         {/* <h1 className="mt-8">Products</h1>
       {isProductsLoading && <p>Loading products...</p>}
       <div className="flex flex-wrap gap-4">
