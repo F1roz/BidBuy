@@ -13,10 +13,13 @@ public class Bid {
     private float bid_price;
 
     @Column(name = "product_id")
-    private int product_id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @Column(name = "bidder_id")
-    private int bidder_id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bidder_id")
+    private User user;
 
     @Column(name = "created_at")
     private String created_at;
@@ -37,20 +40,19 @@ public class Bid {
         this.bid_price = bid_price;
     }
 
-    public int getProduct_id() {
-        return product_id;
-    }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
-    }
 
-    public int getBidder_id() {
-        return bidder_id;
+    public Product getProduct() {
+        return product;
     }
-
-    public void setBidder_id(int bidder_id) {
-        this.bidder_id = bidder_id;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getCreated_at() {
