@@ -3,6 +3,7 @@ import { getCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
+import { jsxService } from "../../../service";
 import { IProduct } from "../../../types";
 import Layout from "../../Layout";
 import QRModal from "../Product/QRcode";
@@ -88,7 +89,7 @@ const AdminProduct = () => {
                   //     string class=
                   // }
                   // eslint-disable-next-line react/jsx-key
-                  <Productitem p={p} />
+                  <Productitem p={p} key={p.id} />
                 ))}
           </tbody>
         </table>
@@ -151,17 +152,15 @@ function handleStatus(id: number, status: string): void {
   console.log(param);
 
   // if (status.trim() === "pending") {
-  //   axios
-  //     .put(`/api/product/${id}/approve`, {
-  //       status: "listed",
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //       window.location.reload();
-  //     }).catch((err) => {
-  //       console.log(err);
-  //     }
-  //     );
+  jsxService()
+    .put(`/product/changeStatus?id=${id}&status=${param}`)
+    .then((res) => {
+      console.log(res);
+      window.location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   // } else {
   //   axios
   //     .put(`/api/product/${id}/approve`, {

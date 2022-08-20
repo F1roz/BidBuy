@@ -69,12 +69,12 @@ public class ProductController {
         return this.productService.getByName(name);
     }
 
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public void delete(@RequestParam(name = "id", required = true) int id) {
         this.productService.delete(id);
     }
 
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public void update(@RequestParam(name = "id", required = true) int id, @RequestParam(name = "product", required = true) Product product) {
         this.productService.update(product);
     }
@@ -108,9 +108,9 @@ public class ProductController {
         );
     }
     //change product status
-    @RequestMapping("/changeStatus")
+    @PutMapping("/changeStatus")
     public void changeStatus(@RequestParam(name = "id", required = true) int id, @RequestParam(name = "status", required = true) String status) {
-        this.productService.changeStatus(id, status);
+        this.productService.changeStatus(id,  status);
     }
 
 }
