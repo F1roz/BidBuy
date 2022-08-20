@@ -107,5 +107,10 @@ public class ProductController {
                 id
         );
     }
+    //change product status
+    @RequestMapping("/changeStatus")
+    public void changeStatus(@RequestParam(name = "id", required = true) int id, @RequestParam(name = "status", required = true) String status) {
+        this.productService.changeStatus(id, status);
+    }
 
 }

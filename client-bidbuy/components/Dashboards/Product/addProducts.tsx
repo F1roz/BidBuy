@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { z, ZodError } from "zod";
 import { ACCESS_TOKEN_COOKIE_KEY } from "../../../consts";
 import { CreateProductDto } from "../../../dtos";
+
 import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
 import { jsxService } from "../../../service";
@@ -13,7 +14,7 @@ import { getAccessToken } from "../../../utils/AuthUtils";
 import { toastZodErrors } from "../../../utils/ZodUtils";
 import Layout from "../../Layout";
 
-export default function Add() {
+export default function MyProducts() {
   const { tokenRefreshed, user } = useAuth();
   const router = useRouter();
 
