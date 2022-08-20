@@ -37,3 +37,9 @@ export interface IBid {
   bidPrice: number;
   product: IProduct | null;
 }
+
+export interface IProductCategory {
+  id: number;
+  name: string;
+}
+

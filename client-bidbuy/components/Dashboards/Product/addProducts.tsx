@@ -1,95 +1,188 @@
-import Link from "next/link";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { z, ZodError } from "zod";
+import { ACCESS_TOKEN_COOKIE_KEY } from "../../../consts";
+import { CreateProductDto } from "../../../dtos";
+
 import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
-import { IProduct } from "../../../types";
+import { jsxService } from "../../../service";
+import { IProduct, IProductCategory } from "../../../types";
+import { getAccessToken } from "../../../utils/AuthUtils";
+import { toastZodErrors } from "../../../utils/ZodUtils";
 import Layout from "../../Layout";
 
 export default function MyProducts() {
   const { tokenRefreshed, user } = useAuth();
-  const {
-    data: products,
-    isLoading: isProductsLoading,
-    isError,
-    isSuccess,
-    refetch,
-    setData,
-  } = useAuthenticatedFetch<IProduct[]>(
-    `product/`,
+  const router = useRouter();
+
+  const { data: categories } = useAuthenticatedFetch<IProductCategory[]>(
+    `product/categories`,
     [tokenRefreshed, user]
   );
-  
-  console.log(products);
+
+  const [addingProduct, setAddingProduct] = useState<CreateProductDto>({
+    name: "",
+    description: "",
+    category: !!categories && categories.length > 0 ? categories[0].name : "",
+    price: 0,
+    image: "",
+    status: "pending",
+  });
+
+  const [imgFile, setImgFile] = useState<File | null>(null);
+
+  const handleAddProduct = async () => {
+    console.log({ addingProduct });
+    try {
+      const formdata = new FormData();
+      const payload = z
+        .object({
+          name: z.string().min(1),
+          description: z.string(),
+          category: z.string(),
+          price: z.number().gt(0),
+          status: z.string(),
+        })
+        .parse(addingProduct);
+      if (!!!imgFile) {
+        toast.error("Image is required");
+        return;
+      }
+      formdata.append("MMaExhYy6NYi67symxfOEP4Hb5fl7N", imgFile);
+      const image = await jsxService()
+        .post(`/firebase/upload`, formdata)
+        .then((res) => res.data.url);
+      console.log({ image });
+
+      if (typeof image !== "string") {
+        toast.error("Error uploading image");
+        return;
+      }
+      await jsxService().post(`product/create`, { ...payload, image });
+      router.push(`/dashboard/my-products`);
+    } catch (error) {
+      console.log("Error adding products : ", error);
+      toastZodErrors(error);
+    }
+  };
 
   return (
-    <>
-      <Layout role="user">
-        <h1>UserDashboard</h1>
-        <div className="flex justify-between">
-          <h1>My Products</h1>
+    <Layout role="user">
+      <h1>UserDashboard</h1>
+      <div className="m-12 ">
+        <div className="p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+          <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+            Add Product
+          </h5>
 
-          <Link href={"/dashboard/my-products/addProducts"} passHref>
-            <a className=" focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-              Add Product
-            </a>
-          </Link>
+          <div className="mb-6">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              placeholder="Product Name"
+              required
+              value={addingProduct.name}
+              onChange={(e) =>
+                setAddingProduct((p) => ({ ...p, name: e.target.value }))
+              }
+            />
+          </div>
+          <div className="mb-6">
+            <textarea
+              id="description"
+              name="description"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Product Description..."
+              value={addingProduct.description}
+              onChange={(e) =>
+                setAddingProduct((p) => ({
+                  ...p,
+                  description: e.target.value,
+                }))
+              }
+            ></textarea>
+          </div>
+
+          <div className="mb-6">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+              Select Product Catagory
+            </label>
+            <select
+              value={addingProduct.category}
+              onChange={(e) =>
+                setAddingProduct((p) => ({ ...p, category: e.target.value }))
+              }
+              id="cataegory"
+              name="cataegory"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              {!!categories &&
+                categories.map((c) => <option key={c.id}>{c.name}</option>)}
+            </select>
+          </div>
+          <div className="mb-6">
+            <input
+              type="number"
+              id="price"
+              name="price"
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              placeholder="Product Price"
+              required
+              value={addingProduct.price || ""}
+              onChange={(e) =>
+                setAddingProduct((p) => ({
+                  ...p,
+                  price:
+                    e.target.value === "0" || isNaN(e.target.valueAsNumber)
+                      ? 0
+                      : e.target.valueAsNumber,
+                }))
+              }
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Upload file
+            </label>
+            <input
+              id="image"
+              name="image"
+              className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              aria-describedby="user_avatar_help"
+              type="file"
+              // accept="image/*"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (!f) return;
+                setImgFile(f);
+              }}
+            />
+            <div
+              className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+              id="user_avatar_help"
+            >
+              A Product picture is useful to customers
+            </div>
+          </div>
+          <div className="mb-6">
+            <div className="flex justify-between items-center">
+              <button
+                onClick={handleAddProduct}
+                type="button"
+                className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Add Product
+              </button>
+            </div>
+          </div>
         </div>
-
-        {/* <h1 className="mt-8">Products</h1>
-      {isProductsLoading && <p>Loading products...</p>}
-      <div className="flex flex-wrap gap-4">
-        {!!products &&
-          products.map((p) => (
-            <div className="m-4 p-2 bg-gray-300 rounded w-40" key={p.id}>
-              <h1>{p.name}</h1>
-              <h2>{p.description}</h2>
-            </div>
-          ))}
-      </div> */}
-        {isProductsLoading && <p>Loading products...</p>}
-        {!!products &&
-          products.map((p) => (
-            // eslint-disable-next-line react/jsx-key
-            <div className="my-8 mx-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-              <a href="#">
-                <img
-                  className="rounded-t-lg"
-                  src="https://images.unsplash.com/photo-1609692814867-d668c4487979?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"
-                  alt=""
-                />
-              </a>
-              <div className="p-5">
-                <a href="#">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {p.name}
-                  </h5>
-                </a>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  {p.description}
-                </p>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Price: {p.price}
-                </p>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Status: {p.status}
-                </p>
-
-                <a
-                  href="#"
-                  className="mr-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Edit Product
-                </a>
-                <a
-                  href="#"
-                  className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-                >
-                  Delete
-                </a>
-              </div>
-            </div>
-          ))}
-      </Layout>
-    </>
+      </div>
+    </Layout>
   );
 }

@@ -22,7 +22,7 @@ public class Product {
     private String status;
 
     @Column(name = "price")
-    private String price;
+    private Float price;
 
     @Column(name = "sell_price")
     private String sell_price;
