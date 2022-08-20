@@ -2,8 +2,6 @@ import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
 import { IProduct } from "../../../types";
 import Layout from "../../Layout";
-import router from "next/router";
-import Link from "next/link";
 
 export default function Add() {
   const { tokenRefreshed, user } = useAuth();
