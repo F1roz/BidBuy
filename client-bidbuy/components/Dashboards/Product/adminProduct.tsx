@@ -114,7 +114,7 @@ const Productitem = ({ p }: { p: IProduct }) => {
       </th>
       <td className="py-4 px-6">{p.description}</td>
       <td className="py-4 px-6">
-        <div className="flex items-center">{p.seller.kyc.name}</div>
+        <div className="flex items-center">{p.seller?.kyc?.name}</div>
       </td>
       <td className="py-4 px-6">
         <div className="flex items-center">{p.price}</div>

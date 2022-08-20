@@ -50,11 +50,9 @@ export default function UserList() {
           <tr>
             <th scope="col" className="py-3 px-6">
               Username
-              <div className="font-normal text-gray-500">
-                      Email
-                </div>
+              <div className="font-normal text-gray-500">Email</div>
             </th>
-           
+
             <th scope="col" className="py-3 px-6">
               Name
             </th>
@@ -92,23 +90,23 @@ export default function UserList() {
                     </div>
                   </div>
                 </th>
-                <td className="py-4 px-6">{user.kyc.name}</td>
+                <td className="py-4 px-6">{user.kyc?.name}</td>
                 <td className="py-4 px-6">
                   <div className="flex items-center">
                     {/* <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>{" "} */}
-                    {user.kyc.address}
+                    {user.kyc?.address}
                   </div>
                 </td>
                 <td className="py-4 px-6">
                   <div className="flex items-center">
                     {/* <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>{" "} */}
-                    {user.kyc.phone}
+                    {user.kyc?.phone}
                   </div>
                 </td>
                 <td className="py-4 px-6">
                   <div className="flex items-center">
                     {/* <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>{" "} */}
-                    {user.kyc.number}
+                    {user.kyc?.number}
                   </div>
                 </td>
                 <td className="py-4 px-6">
