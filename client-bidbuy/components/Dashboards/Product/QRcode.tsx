@@ -25,7 +25,7 @@ export default function QRcode({
   return (
     <div
       className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 transition-all duration-300 ${
-        showModal ? "" : "opacity-0 -translate-y-[1000px]"
+        showModal ? "" : "opacity-0 -translate-y-[1500px]"
       }`}
     >
       <div
