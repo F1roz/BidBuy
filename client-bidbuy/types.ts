@@ -1,32 +1,3 @@
-export interface ISeatInfo {
-  Id: number;
-  StartTime: string;
-  SeatNo: number;
-  TicketId: number;
-  TransportId: number;
-  AgeClassEnum: AgeClassEnum;
-  SeatClassEnum: SeatClassEnum;
-  Status: string;
-}
-
-export interface AgeClassEnum {
-  Id: number;
-  Value: string;
-}
-
-export interface SeatClassEnum extends AgeClassEnum {}
-export interface RoleClassEnum extends AgeClassEnum {}
-
-export interface User {
-  id: number;
-  nid: string;
-  email: string;
-  username: string;
-  password: string;
-  type: string;
-  products: null;
-}
-
 export interface IKyc {
   id: number;
   number: number;

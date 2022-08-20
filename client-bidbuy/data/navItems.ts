@@ -6,7 +6,7 @@ export const userNavRoutes = [
 
 export const adminNavRoutes = [
   { link: "/dashboard/users", name: "Users" },
-  { link: "/admin/products", name: "Products" },
+  { link: "/dashboard/manageProducts", name: "Products" },
 ];
 
 export const unauthenticatedNavItems = [

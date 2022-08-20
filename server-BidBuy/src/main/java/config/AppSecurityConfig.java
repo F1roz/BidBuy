@@ -51,6 +51,7 @@ public class AppSecurityConfig {
         http.authorizeRequests().antMatchers("/firebase/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAnyAuthority("user", "admin");
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").hasAnyAuthority("admin");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/product/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new JwtAuthenticationFilter(authenticationManager(authenticationConfiguration)));
         http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

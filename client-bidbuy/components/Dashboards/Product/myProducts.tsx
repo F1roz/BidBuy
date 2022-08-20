@@ -54,8 +54,7 @@ export default function MyProducts() {
               <a href="#">
                 <img
                   className="rounded-t-lg"
-                  src="https://images.unsplash.com/photo-1609692814867-d668c4487979?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"
-                  alt=""
+                  src={p.image} alt=""
                 />
               </a>
               <div className="p-5">
