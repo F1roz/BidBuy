@@ -23,7 +23,7 @@ const NavBar = ({
     router.replace(`/auth/login`);
   };
   return (
-    <nav className="flex gap-4 fixed top-0 left-0 right-0 justify-end text-xl px-6 py-3 bg-white shadow-xl font-medium text-gray-600">
+    <nav className="flex z-50 gap-4 fixed top-0 left-0 right-0 justify-end text-xl px-6 py-3 bg-white shadow-xl font-medium text-gray-600">
       {navItems.map((item, idx) => (
         <Link href={item.link} passHref key={idx + item.name + item.link}>
           <a className="hover:text-black transition-colors">{item.name}</a>

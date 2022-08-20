@@ -46,6 +46,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                                         .collect(Collectors.toList())
                         )
                 );
+                
                 filterChain.doFilter(request, response);
             } catch (JWTVerificationException e) {
                 response.setStatus(400);
