@@ -15,7 +15,6 @@ const NavBar = ({
 }) => {
   const { user } = useAuth();
   const router = useRouter();
-  console.log(user);
 
   const handleLogoutCLick = async () => {
     removeCookies(ACCESS_TOKEN_COOKIE_KEY);

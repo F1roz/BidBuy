@@ -3,11 +3,14 @@ package controllers;
 import dtos.JwtPayloadDto;
 import dtos.ProductDto;
 import dtos.UserDto;
+import lombok.RequiredArgsConstructor;
 import model.Product;
+import model.ProductCategory;
 import model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import services.ProductCategoryService;
 import services.ProductService;
 import services.UserService;
 import utils.HashMapItem;
@@ -21,14 +24,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/product")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
     private final UserService userService;
-
-    public ProductController(ProductService productService, UserService userService) {
-        this.productService = productService;
-        this.userService = userService;
-    }
+    private final ProductCategoryService productCategoryService;
 
     @GetMapping("/")
     public List<ProductDto> getAll(
@@ -42,6 +42,11 @@ public class ProductController {
                         Math.max(pageNo, 1),
                         Math.max(view, 10)
                 );
+    }
+
+    @GetMapping("/categories")
+    public List<ProductCategory> getAllCategories() {
+        return this.productCategoryService.getAll();
     }
 
     @GetMapping("/count")
@@ -74,8 +79,8 @@ public class ProductController {
         this.productService.update(product);
     }
 
-    @RequestMapping("/create")
-    public ResponseEntity<Map<String, Object>> create(@RequestParam(name = "product", required = true) Product product, @RequestHeader("Authorization") String Authorization) {
+    @PostMapping("/create")
+    public ResponseEntity<Map<String, Object>> create(@RequestBody Product product, @RequestHeader("Authorization") String Authorization) {
         JwtPayloadDto loggedInUser = JwtUtils.getLoggedInUser(Authorization);
         if (loggedInUser == null) return new ResponseEntity<>(HashMapUtils.build(
                 HashMapItem.build("message", "Unauthenticated")

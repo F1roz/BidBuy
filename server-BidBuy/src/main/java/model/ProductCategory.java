@@ -14,14 +14,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "product_categories")
 @NoArgsConstructor
+@Getter
+@Setter
 @ToString(callSuper = true)
 public class ProductCategory {
     @Id
-    @Getter
-    @Setter
     private int id;
     @Column(name = "name")
-    @Getter
-    @Setter
     private String name;
 }

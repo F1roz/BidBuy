@@ -18,7 +18,7 @@ export default function MyProducts() {
     `product/getProductByUserName/${user?.username}`,
     [tokenRefreshed, user]
   );
-  
+
   console.log(products);
 
   return (
@@ -29,7 +29,7 @@ export default function MyProducts() {
           <h1>My Products</h1>
 
           <Link href={"/dashboard/my-products/addProducts"} passHref>
-            <a className=" focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <a className=" focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
               Add Product
             </a>
           </Link>
@@ -50,14 +50,21 @@ export default function MyProducts() {
         {!!products &&
           products.map((p) => (
             // eslint-disable-next-line react/jsx-key
-            <div className="my-8 mx-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-              <a href="#">
+            <div
+              key={p.id}
+              className="my-8 mx-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+            >
+              {!!p.image ? (
                 <img
-                  className="rounded-t-lg"
-                  src="https://images.unsplash.com/photo-1609692814867-d668c4487979?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80"
+                  className="rounded-t-lg aspect-[3/2] object-cover"
+                  src={p.image}
                   alt=""
                 />
-              </a>
+              ) : (
+                <div className="w-full aspect-[3/2] bg-gray-600 rounded-t-lg text-gray-300 flex justify-center items-center">
+                  Image not available
+                </div>
+              )}
               <div className="p-5">
                 <a href="#">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

@@ -20,7 +20,7 @@ public class ProductDto {
 
     private String status;
 
-    private String price;
+    private Float price;
 
     private String sell_price;
 
