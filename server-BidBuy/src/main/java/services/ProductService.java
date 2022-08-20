@@ -14,5 +14,6 @@ public interface ProductService {
     public void save(Product product);
     public void update(Product product);
     public void delete(int id);
+    public void changeStatus(int id, String status);
 
 }

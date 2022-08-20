@@ -77,4 +77,12 @@ public class ProductDaoImpl implements ProductDao {
         this.sessionFactory.getCurrentSession().delete(getById(id));
     }
 
+    @Override
+    public void changeStatus(int id, String status) {
+        this.sessionFactory.getCurrentSession().createQuery("update Product set status=:status where id=:id")
+                .setParameter("status",status)
+                .setParameter("id",id)
+                .executeUpdate();
+    }
+
 }
