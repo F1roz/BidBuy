@@ -9,8 +9,14 @@ import React, {
 } from "react";
 import { ACCESS_TOKEN_COOKIE_KEY } from "../consts";
 import { jsxService } from "../service";
+import useAuth from "./useAuth";
 
-const useAuthenticatedFetch = <T>(apiUrl: string, deps: DependencyList) => {
+const useAuthenticatedFetch = <T>(
+  apiUrl: string,
+  deps: DependencyList,
+  mustDefines: any[] = []
+) => {
+  const { user, tokenRefreshed } = useAuth();
   const [data, setData] = useState<T | undefined | null>(undefined);
   const [refetchHelper, setRefetchHelper] = useState(false);
   const refetch = useCallback(() => {
@@ -26,15 +32,17 @@ const useAuthenticatedFetch = <T>(apiUrl: string, deps: DependencyList) => {
     return data !== null && data !== undefined;
   }, [data]);
   useEffect(() => {
-    jsxService(getCookie(ACCESS_TOKEN_COOKIE_KEY)?.toString() || "")
-      .get(apiUrl)
-      .then((res) => res.data)
-      .then(setData)
-      .catch((err) => {
-        console.log(`Error fetching ${apiUrl} : `, err);
-        setData(null);
-      });
-  }, [...deps, refetchHelper]);
+    if (mustDefines.every((v) => !!v)) {
+      jsxService(getCookie(ACCESS_TOKEN_COOKIE_KEY)?.toString() || "")
+        .get(apiUrl)
+        .then((res) => res.data)
+        .then(setData)
+        .catch((err) => {
+          console.log(`Error fetching ${apiUrl} : `, err);
+          setData(null);
+        });
+    }
+  }, [...deps, refetchHelper, user, tokenRefreshed]);
   return { data, setData, refetch, isLoading, isError, isSuccess };
 };
 

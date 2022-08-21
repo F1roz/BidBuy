@@ -1,4 +1,5 @@
 import { getCookie } from "cookies-next";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
@@ -48,9 +49,11 @@ const Productitem = ({ p }: { p: IProduct }) => {
         <div className="flex justify-between items-center">
           <span className="text-3xl font-bold text-gray-900">$ {p.price}</span>
           <div className="space-x-2">
-            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-              Bid Now
-            </button>
+            <Link passHref href={`/dashboard/user/bid/${p.id}`}>
+              <a className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                Bid Now
+              </a>
+            </Link>
             <button
               onClick={() => setShowModal(true)}
               className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5"

@@ -16,10 +16,9 @@ export default function MyProducts() {
     setData,
   } = useAuthenticatedFetch<IProduct[]>(
     `product/getProductByUserName/${user?.username}`,
-    [tokenRefreshed, user]
+    [tokenRefreshed, user],
+    [user?.username]
   );
-
-  console.log(products);
 
   return (
     <>

@@ -73,8 +73,8 @@ export default function MyProducts() {
     <Layout role="user">
       <h1>UserDashboard</h1>
       <div className="m-12 ">
-        <div className="p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-6 dark:bg-gray-800 dark:border-gray-700">
-          <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+        <div className="p-4 w-full max-w-sm bg-gray-200 rounded-lg border shadow-md sm:p-6">
+          <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl">
             Add Product
           </h5>
 
@@ -83,7 +83,7 @@ export default function MyProducts() {
               type="text"
               id="name"
               name="name"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Product Name"
               required
               value={addingProduct.name}
@@ -96,7 +96,7 @@ export default function MyProducts() {
             <textarea
               id="description"
               name="description"
-              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Product Description..."
               value={addingProduct.description}
               onChange={(e) =>
@@ -109,7 +109,7 @@ export default function MyProducts() {
           </div>
 
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+            <label className="block mb-2 text-sm font-medium text-gray-900">
               Select Product Catagory
             </label>
             <select
@@ -119,7 +119,7 @@ export default function MyProducts() {
               }
               id="cataegory"
               name="cataegory"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             >
               {!!categories &&
                 categories.map((c) => <option key={c.id}>{c.name}</option>)}
@@ -130,7 +130,7 @@ export default function MyProducts() {
               type="number"
               id="price"
               name="price"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Product Price"
               required
               value={addingProduct.price || ""}
@@ -147,13 +147,13 @@ export default function MyProducts() {
           </div>
 
           <div className="mb-6">
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="block mb-2 text-sm font-medium text-gray-900">
               Upload file
             </label>
             <input
               id="image"
               name="image"
-              className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointerfocus:outline-none"
               aria-describedby="user_avatar_help"
               type="file"
               // accept="image/*"
@@ -163,10 +163,7 @@ export default function MyProducts() {
                 setImgFile(f);
               }}
             />
-            <div
-              className="mt-1 text-sm text-gray-500 dark:text-gray-300"
-              id="user_avatar_help"
-            >
+            <div className="mt-1 text-sm text-gray-500" id="user_avatar_help">
               A Product picture is useful to customers
             </div>
           </div>
@@ -175,7 +172,7 @@ export default function MyProducts() {
               <button
                 onClick={handleAddProduct}
                 type="button"
-                className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
               >
                 Add Product
               </button>
