@@ -85,4 +85,12 @@ public class ProductDaoImpl implements ProductDao {
                 .executeUpdate();
     }
 
+    @Override
+    public void sellProduct(int id, int buyerId) {
+        this.sessionFactory.getCurrentSession().createQuery("update Product set buyer_id=:buyerId where id=:id")
+                .setParameter("buyerId",buyerId)
+                .setParameter("id",id)
+                .executeUpdate();
+    }
+
 }

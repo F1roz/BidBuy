@@ -73,6 +73,11 @@ export default function MyProducts() {
                 </div>
                 <div className="p-3 flex justify-end items-center">
                   <button className="mr-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    <Link href={`/dashboard/my-products/viewBids/${p.id}`}>
+                      View Bids
+                    </Link>
+                  </button>
+                  <button className="mr-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                     Edit Product
                   </button>
                   <button className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
