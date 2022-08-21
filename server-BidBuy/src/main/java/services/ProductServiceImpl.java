@@ -66,5 +66,7 @@ public class ProductServiceImpl implements ProductService {
     public void sellProduct(int id, int buyerId,float sellPrice,String status) {
         productDao.sellProduct(id, buyerId,sellPrice,status);
     }
+
+
 }
 

@@ -8,6 +8,7 @@ import { authService, jsxService } from "../service";
 const useAuth = () => {
   const [user, setUser] = useState<
     | {
+        id: import("e:/OneDrive - American International University-Bangladesh/AIUB/ATP 1/BidBuy/client-bidbuy/types").IUser | null;
         username: string;
         roles: string[];
       }

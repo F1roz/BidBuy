@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Layout from "../../../../components/Layout";
 import { CreateBidDto } from "../../../../dtos";
+import useAuth from "../../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../../hooks/useAuthenticatedFetch";
 import { jsxService } from "../../../../service";
 import { IBid, IProduct } from "../../../../types";
@@ -31,7 +32,8 @@ const BidProduct = () => {
   const handleAddBid = () => {
     if (!product) return;
     if (!bids) return;
-    if (product.seller === user.id){
+    if (!user) return;
+    if (product.seller === user.id) {
       return toast.error("You can't bid on your own product");
     }
     if (addingBid.bidPrice <= product.price) {

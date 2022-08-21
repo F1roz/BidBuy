@@ -45,6 +45,7 @@ public class ProductController {
                 ).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
     }
 
+
     @GetMapping("/categories")
     public List<ProductCategory> getAllCategories() {
         return this.productCategoryService.getAll();
