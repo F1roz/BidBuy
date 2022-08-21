@@ -40,10 +40,12 @@ const BidProduct = () => {
       toast.error("Bid price must be higher than Starting price");
       return;
     }
-    if (addingBid.bidPrice <= bids?.[0].bidPrice) {
+    if (bids.length > 0 && addingBid.bidPrice <= bids?.[0].bidPrice) {
       toast.error("Bid price must be higher than current highest bid");
       return;
     } else {
+      console.log(addingBid);
+
       jsxService()
         .post(`bid/create`, addingBid)
         .then((res) => res.data)
@@ -57,7 +59,6 @@ const BidProduct = () => {
   };
 
   console.log({ bids });
-  const minimum = bids?.[0].bidPrice;
 
   if (product === null) return <NotFoundPage />;
   return (
@@ -83,7 +84,7 @@ const BidProduct = () => {
                         Owner : {product?.seller?.kyc?.name}
                       </a>
                     </div>
-                    <div className="text-slate-500 dark:text-slate-300 dark:text-slate-400">
+                    <div className="text-slate-500  dark:text-slate-400">
                       Posted on: {product?.created_at?.slice(0, 10)}
                     </div>
                   </div>

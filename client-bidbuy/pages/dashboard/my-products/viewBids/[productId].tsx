@@ -63,7 +63,7 @@ const ViewBid = () => {
                         Owner : {product?.seller?.kyc?.name}
                       </a>
                     </div>
-                    <div className="text-slate-500 dark:text-slate-300 dark:text-slate-400">
+                    <div className="text-slate-500  dark:text-slate-400">
                       Posted on: {product?.created_at?.slice(0, 10)}
                     </div>
                   </div>
