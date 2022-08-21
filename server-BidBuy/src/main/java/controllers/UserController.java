@@ -1,9 +1,9 @@
 package controllers;
 
 import dtos.UserDto;
+import lombok.RequiredArgsConstructor;
 import model.User;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import services.UserService;
@@ -14,15 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
-
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-    }
-
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
@@ -71,7 +65,6 @@ public class UserController {
 
     @PostMapping("/save")
     public void save(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         this.userService.save(user);
     }
 

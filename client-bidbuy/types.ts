@@ -39,7 +39,7 @@ export interface IBid {
   product: IProduct | null;
   bidder: IUser | null;
   bidderId: number | null;
-  createdAt: string | null;
+  createdAt: string;
 }
 
 export interface IProductCategory {

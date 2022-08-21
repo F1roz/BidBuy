@@ -15,4 +15,8 @@ public interface UserDao {
     public void update(User user);
     public void delete(int id);
     public User authenticateUser(String usernameOrEmail, String password);
+
+    public boolean existsByUsername(String username);
+
+   public boolean existsByEmail(String email);
 }

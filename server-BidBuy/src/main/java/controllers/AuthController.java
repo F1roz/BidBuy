@@ -3,6 +3,7 @@ package controllers;
 
 import dtos.JwtPayloadDto;
 import dtos.LoginDto;
+import model.Kyc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+import services.KycService;
 import services.UserService;
 import utils.HashMapItem;
 import utils.HashMapUtils;
@@ -25,10 +27,12 @@ public class AuthController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
+    private final KycService kycService;
 
-    public AuthController(UserService userService, AuthenticationManager authenticationManager) {
+    public AuthController(UserService userService, AuthenticationManager authenticationManager, KycService kycService) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
+        this.kycService = kycService;
     }
 
     @PostMapping("/sign-in")
@@ -48,6 +52,40 @@ public class AuthController {
             res.put("message", "Invalid Username or Password");
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    //sign up
+    @PostMapping("/sign-up")
+    public ResponseEntity<Map<String, String>> signUp(
+            @RequestBody model.User user,
+            @RequestParam(name = "nid") String nid
+    ) {
+
+        Map<String, String> res = new HashMap<>();
+        if (userService.existsByUsername(user.getUsername())) {
+            res.put("message", "Username already exists");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+
+        if (userService.existsByEmail(user.getEmail())) {
+            res.put("message", "Email already exists");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        Kyc kycRes = kycService.getByNumber(nid);
+        if (kycRes == null) {
+            res.put("message", "Invalid NID");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        if (kycRes.getUser() != null) {
+            res.put("message", "Account already exists with NID");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        user.setNid(kycRes.getId());
+//        user.setKyc(kycRes);
+        user.setType("user");
+        userService.save(user);
+        res.put("message", "User created successfully");
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping("/refresh-token")

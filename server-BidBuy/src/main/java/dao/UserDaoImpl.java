@@ -85,4 +85,14 @@ public class UserDaoImpl implements UserDao {
                 findFirst().
                 orElse(null);
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return this.sessionFactory.getCurrentSession().createQuery("from User where username=:username",User.class).setParameter("username",username).getResultList().size()>0;
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return this.sessionFactory.getCurrentSession().createQuery("from User where email=:email",User.class).setParameter("email",email).getResultList().size()>0;
+    }
 }

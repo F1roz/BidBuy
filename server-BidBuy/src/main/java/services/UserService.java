@@ -15,9 +15,14 @@ public interface UserService {
     public UserDto getById(int id);
     public User getByEmail(String email);
     public User getByUsername(String username);
+
     public void save(User user);
+
     public void update(User user);
     public void delete(int id);
+    public boolean existsByUsername(String username);
+    public boolean existsByEmail(String email);
+
 
     public Product getProduct(Product product);
     public User authenticateUser(String usernameOrPassword, String password);

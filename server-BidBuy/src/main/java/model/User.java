@@ -23,7 +23,7 @@ public class User {
     private int id;
 
     @Column(name = "nid")
-    private String nid;
+    private int nid;
 
     @OneToOne
     @JoinColumn(name = "nid", insertable = false, updatable = false)

@@ -32,5 +32,22 @@ public class KycDao {
                 .getCurrentSession()
                 .createQuery("from Kyc",Kyc.class).getResultList().size();
     }
+    //getByNumber returns false if there is no kyc with the given number
+    public Kyc asd(String number){
+         return this.sessionFactory
+                .getCurrentSession()
+                .createQuery(
+                        "FROM Kyc WHERE number = :number",
+                        Kyc.class
+                )
+                .setParameter("number",number)
+                .getSingleResult();
+
+    }
+    public Kyc getByNumber(String number) {
+        return this.sessionFactory.getCurrentSession().createQuery("from Kyc where number=:number", Kyc.class).setParameter("number",number).getSingleResult();
+    }
+
+
 
 }

@@ -19,4 +19,5 @@ public class KycService {
     @Transactional
     public List<Kyc> getAll(int page,int viewPerPage){return this.kycDao.getAll(page,viewPerPage);}
     public Integer getAllCount(){return this.kycDao.getAllCount();}
+    public Kyc getByNumber(String number){return this.kycDao.getByNumber(number);}
 }

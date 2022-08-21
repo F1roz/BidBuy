@@ -8,4 +8,5 @@ export type CreateProductDto = Omit<
 export type CreateBidDto = Omit<
   IBid,
   "id" | "product" | "bidder" | "bidderId" | "createdAt"
+
 >;
