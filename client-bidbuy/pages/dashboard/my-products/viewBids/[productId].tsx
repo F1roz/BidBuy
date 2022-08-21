@@ -2,18 +2,16 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 import Layout from "../../../../components/Layout";
 import { CreateBidDto } from "../../../../dtos";
-import useAuth from "../../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../../hooks/useAuthenticatedFetch";
 import { jsxService } from "../../../../service";
-import { IBid, IProduct } from "../../../../types";
+import { IProduct, IBid } from "../../../../types";
 import NotFoundPage from "../../../404";
+import { Toaster, toast } from "react-hot-toast";
 
-const BidProduct = () => {
+const ViewBid = () => {
   const router = useRouter();
-  const { user } = useAuth();
   const { productId } = router.query;
   const { data: product } = useAuthenticatedFetch<IProduct>(
     `product/${productId}`,
@@ -25,44 +23,26 @@ const BidProduct = () => {
     [],
     [productId]
   );
-  const [addingBid, setAddingBid] = useState<CreateBidDto>({
-    productId: !!productId ? +productId : 0,
-    bidPrice: 0,
-  });
-  const handleAddBid = () => {
-    if (!product) return;
-    if (!bids) return;
-    if (!user) return;
-    if (product.seller === user.id) {
-      return toast.error("You can't bid on your own product");
-    }
-    if (addingBid.bidPrice <= product.price) {
-      toast.error("Bid price must be higher than Starting price");
-      return;
-    }
-    if (addingBid.bidPrice <= bids?.[0].bidPrice) {
-      toast.error("Bid price must be higher than current highest bid");
-      return;
-    } else {
-      jsxService()
-        .post(`bid/create`, addingBid)
-        .then((res) => res.data)
-        .then(console.log)
-        .then(() => {
-          toast.success("Bid added successfully");
-        })
-        .then(() => refetchBids())
-        .catch(console.error);
-    }
+  //get 1st value from bids
+  
+  const handleSell = (buyerId: number, sellPrice: number) => {
+    jsxService()
+      .put(
+        `product/sellProduct?id=${productId}&buyerId=${buyerId}&sellPrice=${sellPrice}`
+      )
+      .then((res) => res.data)
+      .then(console.log)
+      .then(() => {
+        toast.success("Product sold successfully");
+      })
+      .then(() => refetchBids())
+      .catch(console.error);
   };
-
-  console.log({ bids });
-  const minimum = bids?.[0].bidPrice;
 
   if (product === null) return <NotFoundPage />;
   return (
     <Layout role="user">
-      <h1>BidProduct</h1>
+      <h1>View Bids</h1>
 
       <div>
         {/* 
@@ -108,33 +88,6 @@ const BidProduct = () => {
               <p className="dark:text-slate-200 pb-8">
                 Starting price: {product?.price}
               </p>
-
-              <div className="relative">
-                <input
-                  value={addingBid.bidPrice || ""}
-                  onChange={(e) =>
-                    setAddingBid((v) => ({
-                      ...v,
-                      bidPrice: isNaN(e.target.valueAsNumber)
-                        ? 0
-                        : e.target.valueAsNumber,
-                    }))
-                  }
-                  className="pt-2 pb-2 pl-3 w-full h-11 bg-slate-100 dark:bg-slate-600 rounded-lg placeholder:text-slate-600 dark:placeholder:text-white font-medium pr-20 text-white"
-                  type="number"
-                  placeholder="Write a comment"
-                />
-                <span className="flex absolute right-3 top-2/4 -mt-3 items-center">
-                  <svg
-                    className="fill-blue-500 dark:fill-slate-50"
-                    style={{ width: " 24px", height: "24px" }}
-                    viewBox="0 0 24 24"
-                    onClick={handleAddBid}
-                  >
-                    <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"></path>
-                  </svg>
-                </span>
-              </div>
               {/* <!-- Comments content --> */}
               <div className="pt-6">
                 {/* <!-- Comment row --> */}
@@ -142,6 +95,11 @@ const BidProduct = () => {
                   {!!bids && bids.length > 0
                     ? "Bids for this product"
                     : "No bids added"}
+                  {product.status === "sold" && (
+                    <h1 className="text-red-600">
+                      Product is Sold to {product.seller?.kyc?.name}
+                    </h1>
+                  )}
                 </h1>
                 {bids === null ? (
                   <h1>Error loading bids</h1>
@@ -150,8 +108,9 @@ const BidProduct = () => {
                 ) : (
                   bids &&
                   bids.map &&
-                  bids.map((bid) => (
-                    <div key={bid.id} className="media flex pb-4">
+                  bids.map((bid, index) => (
+                    //get first bid id
+                    <div key={index} className="media flex pb-4">
                       <div className="media-body">
                         <div>
                           <a
@@ -166,8 +125,22 @@ const BidProduct = () => {
                         </div>
                         <p className="text-slate-500">
                           Bided Price : {bid.bidPrice}
+                          {/* ID: {bid.bidder?.id} */}
                         </p>
                       </div>
+
+                      {product.status.trim() !== "sold" && (
+                        <button
+                          onClick={() => {
+                            if (!!bid && !!bid.bidder) {
+                              handleSell(bid.bidder.id, bid.bidPrice);
+                            }
+                          }}
+                          className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                        >
+                          Sell
+                        </button>
+                      )}
                     </div>
                   ))
                 )}
@@ -182,4 +155,4 @@ const BidProduct = () => {
   );
 };
 
-export default BidProduct;
+export default ViewBid;

@@ -26,7 +26,7 @@ public class UserDto {
 
     private String username;
 
-    private String password;
+//    private String password;
 
     private String type;
 
@@ -41,7 +41,7 @@ public class UserDto {
                 null,
                 user.getEmail(),
                 user.getUsername(),
-                user.getPassword(),
+//                user.getPassword(),
                 user.getType(),
                 null,
                 null

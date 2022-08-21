@@ -14,5 +14,8 @@ public interface ProductDao {
     public void update(Product product);
     public void delete(int id);
 
-    void changeStatus(int id, String status);
+    public void changeStatus(int id, String status);
+
+    public void sellProduct(int id, int buyerId, float sellPrice, String status);
+
 }

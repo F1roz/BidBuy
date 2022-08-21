@@ -47,7 +47,7 @@ public class BidDaoImpl implements BidDao {
     public List<Bid> getByProductId(int productId) {
         return this.sessionFactory
                 .getCurrentSession()
-                .createQuery("from Bid where productId=:productId", Bid.class)
+                .createQuery("from Bid where productId=:productId order by bidPrice desc", Bid.class)
                 .setParameter("productId", productId)
                 .getResultList();
     }

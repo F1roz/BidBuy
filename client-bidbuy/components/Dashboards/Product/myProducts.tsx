@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
+import { jsxService } from "../../../service";
 import { IProduct } from "../../../types";
 import Layout from "../../Layout";
 
@@ -19,6 +21,17 @@ export default function MyProducts() {
     [tokenRefreshed, user],
     [user?.username]
   );
+  const handleDelete = (id: number) => {
+    jsxService()
+      .delete(`product/delete?id=${id}`)
+      .then((res) => res.data)
+      .then(console.log)
+      .then(() => {
+        toast.success("Product Deleted successfully");
+      })
+      .then(() => refetch())
+      .catch(console.error);
+  };
 
   return (
     <>
@@ -73,9 +86,21 @@ export default function MyProducts() {
                 </div>
                 <div className="p-3 flex justify-end items-center">
                   <button className="mr-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                    Edit Product
+                    <Link href={`/dashboard/my-products/viewBids/${p.id}`}>
+                      View Bids
+                    </Link>
                   </button>
-                  <button className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                  {/* <button className="mr-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    Edit Product
+                  </button> */}
+                  <button
+                    onClick={() => {
+                      if (!!p) {
+                        handleDelete(p.id);
+                      }
+                    }}
+                    className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                  >
                     Delete
                   </button>
                 </div>

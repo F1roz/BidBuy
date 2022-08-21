@@ -23,7 +23,16 @@ const UserDashboard = () => {
       <h1 className="mt-8">Products</h1>
       {isProductsLoading && <p>Loading products...</p>}
       <div className="flex flex-wrap justify-center gap-4">
-        {!!products && products.map((p) => <Productitem p={p} key={p.id} />)}
+        {!!products &&
+          products
+            .filter(
+              (p) =>
+                p.status === "listed" &&
+                !!p.seller &&
+                !!user &&
+                p.seller.username != user?.username
+            )
+            .map((p) => <Productitem p={p} key={p.id} />)}
       </div>
     </Layout>
   );
