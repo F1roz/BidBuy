@@ -12,6 +12,7 @@ import NotFoundPage from "../../../404";
 
 const BidProduct = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const { productId } = router.query;
   const { data: product } = useAuthenticatedFetch<IProduct>(
     `product/${productId}`,
@@ -30,6 +31,9 @@ const BidProduct = () => {
   const handleAddBid = () => {
     if (!product) return;
     if (!bids) return;
+    if (product.seller === user.id){
+      return toast.error("You can't bid on your own product");
+    }
     if (addingBid.bidPrice <= product.price) {
       toast.error("Bid price must be higher than Starting price");
       return;
