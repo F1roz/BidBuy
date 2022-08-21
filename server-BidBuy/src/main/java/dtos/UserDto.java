@@ -18,6 +18,8 @@ public class UserDto {
 
     private int id;
 
+    private String nid;
+
     private Kyc kyc;
 
     private String email;
@@ -35,6 +37,7 @@ public class UserDto {
     public static UserDto fromDb(User user) {
         return user == null ? null : new UserDto(
                 user.getId(),
+                user.getNid(),
                 user.getKyc(),
                 user.getEmail(),
                 user.getUsername(),

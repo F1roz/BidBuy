@@ -22,8 +22,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @Column(name = "nid")
-//    private String nid;
+    @Column(name = "nid")
+    private String nid;
 
     @OneToOne
     @JoinColumn(name = "nid", insertable = false, updatable = false)

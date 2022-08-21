@@ -49,6 +49,23 @@ public class ProductController {
         return this.productCategoryService.getAll();
     }
 
+    @PostMapping("/categories")
+    public void addCategory(@RequestBody ProductCategory productCategory) {
+        this.productCategoryService.addOne(productCategory);
+    }
+
+    @PutMapping("/categories/")
+    public void updateCategory(@RequestBody ProductCategory productCategory) {
+        this.productCategoryService.update(productCategory);
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public void deleteCategory(@PathVariable String id) {
+        System.out.println(id);
+        this.productCategoryService.deleteOne(Integer.parseInt(id));
+    }
+
+
     @GetMapping("/count")
     public Integer getAllCount() {
         return this.productService.getAllCount();
@@ -107,10 +124,11 @@ public class ProductController {
                 id
         );
     }
+
     //change product status
     @PutMapping("/changeStatus")
     public void changeStatus(@RequestParam(name = "id", required = true) int id, @RequestParam(name = "status", required = true) String status) {
-        this.productService.changeStatus(id,  status);
+        this.productService.changeStatus(id, status);
     }
 
 }
