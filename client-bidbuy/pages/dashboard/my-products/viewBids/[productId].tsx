@@ -8,6 +8,7 @@ import useAuthenticatedFetch from "../../../../hooks/useAuthenticatedFetch";
 import { jsxService } from "../../../../service";
 import { IProduct, IBid } from "../../../../types";
 import NotFoundPage from "../../../404";
+import { Toaster, toast } from "react-hot-toast";
 
 const ViewBid = () => {
   const router = useRouter();
@@ -22,6 +23,8 @@ const ViewBid = () => {
     [],
     [productId]
   );
+  //get 1st value from bids
+  
   const handleSell = (buyerId: number, sellPrice: number) => {
     jsxService()
       .put(
@@ -29,6 +32,9 @@ const ViewBid = () => {
       )
       .then((res) => res.data)
       .then(console.log)
+      .then(() => {
+        toast.success("Product sold successfully");
+      })
       .then(() => refetchBids())
       .catch(console.error);
   };
@@ -89,6 +95,11 @@ const ViewBid = () => {
                   {!!bids && bids.length > 0
                     ? "Bids for this product"
                     : "No bids added"}
+                  {product.status === "sold" && (
+                    <h1 className="text-red-600">
+                      Product is Sold to {product.seller?.kyc?.name}
+                    </h1>
+                  )}
                 </h1>
                 {bids === null ? (
                   <h1>Error loading bids</h1>
@@ -97,8 +108,9 @@ const ViewBid = () => {
                 ) : (
                   bids &&
                   bids.map &&
-                  bids.map((bid) => (
-                    <div key={bid.id} className="media flex pb-4">
+                  bids.map((bid, index) => (
+                    //get first bid id
+                    <div key={index} className="media flex pb-4">
                       <div className="media-body">
                         <div>
                           <a
@@ -116,16 +128,19 @@ const ViewBid = () => {
                           {/* ID: {bid.bidder?.id} */}
                         </p>
                       </div>
-                      <button
-                        onClick={() => {
-                          if (!!bid && !!bid.bidder) {
-                            handleSell(bid.bidder.id, bid.bidPrice);
-                          }
-                        }}
-                        className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-                      >
-                        Sell
-                      </button>
+
+                      {product.status.trim() !== "sold" && (
+                        <button
+                          onClick={() => {
+                            if (!!bid && !!bid.bidder) {
+                              handleSell(bid.bidder.id, bid.bidPrice);
+                            }
+                          }}
+                          className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                        >
+                          Sell
+                        </button>
+                      )}
                     </div>
                   ))
                 )}

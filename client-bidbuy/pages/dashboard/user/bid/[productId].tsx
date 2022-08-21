@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import Layout from "../../../../components/Layout";
 import { CreateBidDto } from "../../../../dtos";
 import useAuthenticatedFetch from "../../../../hooks/useAuthenticatedFetch";
@@ -27,15 +28,30 @@ const BidProduct = () => {
     bidPrice: 0,
   });
   const handleAddBid = () => {
-    jsxService()
-      .post(`bid/create`, addingBid)
-      .then((res) => res.data)
-      .then(console.log)
-      .then(() => refetchBids())
-      .catch(console.error);
+    if (!product) return;
+    if (!bids) return;
+    if (addingBid.bidPrice <= product.price) {
+      toast.error("Bid price must be higher than Starting price");
+      return;
+    }
+    if (addingBid.bidPrice <= bids?.[0].bidPrice) {
+      toast.error("Bid price must be higher than current highest bid");
+      return;
+    } else {
+      jsxService()
+        .post(`bid/create`, addingBid)
+        .then((res) => res.data)
+        .then(console.log)
+        .then(() => {
+          toast.success("Bid added successfully");
+        })
+        .then(() => refetchBids())
+        .catch(console.error);
+    }
   };
 
   console.log({ bids });
+  const minimum = bids?.[0].bidPrice;
 
   if (product === null) return <NotFoundPage />;
   return (
