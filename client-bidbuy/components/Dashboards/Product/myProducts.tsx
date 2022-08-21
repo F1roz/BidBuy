@@ -29,73 +29,60 @@ export default function MyProducts() {
           <h1>My Products</h1>
 
           <Link href={"/dashboard/my-products/addProducts"} passHref>
-            <a className=" focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <a className=" focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2">
               Add Product
             </a>
           </Link>
         </div>
 
-        {/* <h1 className="mt-8">Products</h1>
-      {isProductsLoading && <p>Loading products...</p>}
-      <div className="flex flex-wrap gap-4">
-        {!!products &&
-          products.map((p) => (
-            <div className="m-4 p-2 bg-gray-300 rounded w-40" key={p.id}>
-              <h1>{p.name}</h1>
-              <h2>{p.description}</h2>
-            </div>
-          ))}
-      </div> */}
         {isProductsLoading && <p>Loading products...</p>}
-        {!!products &&
-          products.map((p) => (
-            // eslint-disable-next-line react/jsx-key
-            <div
-              key={p.id}
-              className="my-8 mx-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-            >
-              {!!p.image ? (
-                <img
-                  className="rounded-t-lg aspect-[3/2] object-cover"
-                  src={p.image}
-                  alt=""
-                />
-              ) : (
-                <div className="w-full aspect-[3/2] bg-gray-600 rounded-t-lg text-gray-300 flex justify-center items-center">
-                  Image not available
+        <div className="flex flex-wrap justify-center">
+          {!!products &&
+            products.map((p) => (
+              <div
+                key={p.id}
+                className="my-8 mx-6 w-96 h-[500px] bg-gray-200 rounded-lg border border-gray-200 shadow-md flex flex-col justify-between"
+              >
+                <div>
+                  {!!p.image ? (
+                    <img
+                      className="rounded-t-lg aspect-[3/2] object-cover"
+                      src={p.image}
+                      alt=""
+                    />
+                  ) : (
+                    <div className="w-full aspect-[3/2] bg-gray-600 rounded-t-lg text-gray-300 flex justify-center items-center">
+                      Image not available
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <a href="#">
+                      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                        {p.name}
+                      </h5>
+                    </a>
+                    <p className="mb-3 font-normal text-gray-700">
+                      {p.description}
+                    </p>
+                    <p className="mb-3 font-normal text-gray-700">
+                      Price: {p.price}
+                    </p>
+                    <p className="mb-3 font-normal text-gray-700">
+                      Status: {p.status}
+                    </p>
+                  </div>
                 </div>
-              )}
-              <div className="p-5">
-                <a href="#">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {p.name}
-                  </h5>
-                </a>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  {p.description}
-                </p>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Price: {p.price}
-                </p>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Status: {p.status}
-                </p>
-
-                <a
-                  href="#"
-                  className="mr-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Edit Product
-                </a>
-                <a
-                  href="#"
-                  className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-                >
-                  Delete
-                </a>
+                <div className="p-3 flex justify-end items-center">
+                  <button className="mr-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    Edit Product
+                  </button>
+                  <button className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+        </div>
       </Layout>
     </>
   );

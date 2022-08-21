@@ -61,7 +61,6 @@ public class ProductController {
 
     @DeleteMapping("/categories/{id}")
     public void deleteCategory(@PathVariable String id) {
-        System.out.println(id);
         this.productCategoryService.deleteOne(Integer.parseInt(id));
     }
 

@@ -1,23 +1,18 @@
-import axios from "axios";
-import { getCookie } from "cookies-next";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
 import { jsxService } from "../../../service";
 import { IProduct } from "../../../types";
 import Layout from "../../Layout";
-import QRModal from "../Product/QRcode";
+
 const AdminProduct = () => {
   const { tokenRefreshed, user } = useAuth();
-  const [isPending, setIsPending] = useState(false);
   const {
     data: products,
     isLoading: isProductsLoading,
-    isError,
-    isSuccess,
     refetch,
     setData,
-  } = useAuthenticatedFetch<IProduct[]>("product/", [tokenRefreshed]);
+  } = useAuthenticatedFetch<IProduct[]>("product/", [tokenRefreshed, user]);
 
   return (
     <Layout role="admin">
@@ -83,12 +78,12 @@ const AdminProduct = () => {
               products
                 .filter((p) => p.status !== "sold")
                 .map((p) => (
-                  // if(p.status.trim()=="pending")
-                  // {
-                  //     string class=
-                  // }
-                  // eslint-disable-next-line react/jsx-key
-                  <Productitem p={p} key={p.id} />
+                  <Productitem
+                    setData={setData}
+                    p={p}
+                    key={p.id}
+                    refetch={refetch}
+                  />
                 ))}
           </tbody>
         </table>
@@ -97,11 +92,16 @@ const AdminProduct = () => {
   );
 };
 export default AdminProduct;
-const Productitem = ({ p }: { p: IProduct }) => {
-  //   const [isPending, setIsPending] = useState(false);
-
+const Productitem = ({
+  p,
+  refetch,
+  setData,
+}: {
+  p: IProduct;
+  refetch: () => void;
+  setData: React.Dispatch<React.SetStateAction<IProduct[] | null | undefined>>;
+}) => {
   return (
-    // eslint-disable-next-line react/jsx-key
     <tr className="bg-white border-b hover:bg-gray-50">
       <th
         scope="row"
@@ -131,9 +131,9 @@ const Productitem = ({ p }: { p: IProduct }) => {
       </td>
       <td className="py-4 px-6">
         <button
-          onClick={() => handleStatus(p.id, p.status)}
+          onClick={() => handleStatus(p.id, p.status, refetch, setData)}
           type="button"
-          className={`${
+          className={`w-28 ${
             p.status.trim() === "pending"
               ? "focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
               : "focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
@@ -145,32 +145,25 @@ const Productitem = ({ p }: { p: IProduct }) => {
     </tr>
   );
 };
-function handleStatus(id: number, status: string): void {
+function handleStatus(
+  id: number,
+  status: string,
+  refetch: () => void,
+  setData: React.Dispatch<React.SetStateAction<IProduct[] | null | undefined>>
+): void {
   console.log(id, status);
   const param = status.trim() == "pending" ? "listed" : "pending";
   console.log(param);
-
-  // if (status.trim() === "pending") {
+  setData((data) =>
+    !!data ? data.map((d) => (d.id === id ? { ...d, status: param } : d)) : data
+  );
   jsxService()
     .put(`/product/changeStatus?id=${id}&status=${param}`)
     .then((res) => {
       console.log(res);
-      window.location.reload();
+      refetch();
     })
     .catch((err) => {
       console.log(err);
     });
-  // } else {
-  //   axios
-  //     .put(`/api/product/${id}/approve`, {
-  //       status: "pending",
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //       window.location.reload();
-  //     }).catch((err) => {
-  //       console.log(err);
-  //     }
-  //     );
-  // }
 }
