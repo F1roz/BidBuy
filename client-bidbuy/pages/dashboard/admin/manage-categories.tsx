@@ -1,30 +1,35 @@
 import React, { useState } from "react";
 import Layout from "../../../components/Layout";
+import useAuth from "../../../hooks/useAuth";
 import useAuthenticatedFetch from "../../../hooks/useAuthenticatedFetch";
 import { jsxService } from "../../../service";
 import { IProductCategory } from "../../../types";
 
 const ManageCategories = () => {
+  const { tokenRefreshed, user } = useAuth();
   const {
     data: categories,
     refetch,
     setData,
-  } = useAuthenticatedFetch<IProductCategory[]>(`product/categories`, []);
+  } = useAuthenticatedFetch<IProductCategory[]>(`product/categories`, [
+    user,
+    tokenRefreshed,
+  ]);
 
   const [name, setName] = useState("");
   const handleAdd = () => {
     setData((data) => (!!data ? [...data, { id: -1, name }] : data));
     jsxService()
       .post(`product/categories/`, { name })
-      .then(() => refetch())
       .then(() => setName(""))
+      .then(() => refetch())
       .catch(console.error);
   };
   return (
     <Layout role="admin">
       <h1 className="text-3xl font-bold">Manae Categories</h1>
       {categories === null && <h1>Error loading</h1>}
-      {!categories && <h1>Loading...</h1>}
+      {categories === undefined && <h1>Loading...</h1>}
       <div className="my-4 flex gap-4">
         <input
           type="text"

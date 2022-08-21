@@ -27,7 +27,6 @@ public class ProductCategoryService {
     }
 
     public void deleteOne(int id) {
-        System.out.println(id);
         productCategoryDao.deleteOne(id);
     }
 }

@@ -1,5 +1,3 @@
-import { useState } from "react";
-import ReactDOM from "react-dom";
 import QRCode from "qrcode.react";
 
 export default function QRcode({
@@ -11,17 +9,6 @@ export default function QRcode({
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   showModal: boolean;
 }) {
-  //   const [show, setShow] = useState(true);
-  // //   const [qrCode, setQrCode] = useState("");
-  // //   const [qrCodeUrl, setQrCodeUrl] = useState("");
-  console.log(id);
-
-  //   const handleClick = () => {
-  //     // setShow(!show);
-  //   };
-
-  //   const handleClose = () => setShow(false);
-
   return (
     <div
       className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 transition-all duration-300 ${
