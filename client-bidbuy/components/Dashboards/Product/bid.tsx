@@ -77,6 +77,7 @@ export default function BidNow() {
             </div>
           </div>
           <p className="dark:text-slate-200 pb-8">{product?.description}</p>
+          <p className="dark:text-slate-200 pb-8">{product?.price}</p>
 
           <div className="relative">
             <input
@@ -108,12 +109,7 @@ export default function BidNow() {
           <div className="pt-6">
             {/* <!-- Comment row --> */}
             <div className="media flex pb-4">
-              <a className="mr-4" href="#">
-                <img
-                  className="rounded-full max-w-none w-12 h-12"
-                  src="https://randomuser.me/api/portraits/men/82.jpg"
-                />
-              </a>
+              
               <div className="media-body">
                 <div>
                   <a
@@ -126,24 +122,9 @@ export default function BidNow() {
                     25 minutes ago
                   </span>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur.</p>
-                <div className="mt-2 flex items-center">
-                  <a className="inline-flex items-center py-2 mr-3" href="#">
-                    <span className="mr-2">
-                      <svg
-                        className="fill-rose-600 dark:fill-rose-400"
-                        style={{ width: " 22px", height: "22px" }}
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path>
-                      </svg>
-                    </span>
-                    <span className="text-base font-bold">12</span>
-                  </a>
-                  <button className="py-2 px-4 font-medium hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg">
-                    Repply
-                  </button>
-                </div>
+                <p className="text-slate-500">
+                  Bided Price : {product?.bided_price}
+                </p>
               </div>
             </div>
           </div>
