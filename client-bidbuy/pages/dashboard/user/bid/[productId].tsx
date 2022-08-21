@@ -24,7 +24,6 @@ const BidProduct = () => {
   const [addingBid, setAddingBid] = useState<CreateBidDto>({
     productId: !!productId ? +productId : 0,
     bidPrice: 0,
-    bidderId: 1,
   });
   const handleAddBid = () => {
     jsxService()
@@ -34,6 +33,8 @@ const BidProduct = () => {
       .then(() => refetchBids())
       .catch(console.error);
   };
+
+  console.log({ bids });
 
   if (product === null) return <NotFoundPage />;
   return (
@@ -63,15 +64,28 @@ const BidProduct = () => {
               />
               <button onClick={handleAddBid}>Add Bid</button>
             </div>
-            <div>
+            <div className="mt-8 mx-8">
+              <h1 className="text-center font-medium text-xl my-4">
+                {!!bids && bids.length > 0
+                  ? "Bids for this product"
+                  : "No bids added"}
+              </h1>
               {bids === null ? (
                 <h1>Error loading bids</h1>
               ) : bids === undefined ? (
                 <h1>Loading Bids</h1>
               ) : (
+                !!bids &&
                 bids.map((bid) => (
                   <div key={bid.id}>
-                    <h1>{JSON.stringify(bid)}</h1>
+                    <div className="flex w-full">
+                      <h1 className="w-3/5 border-2 border-gray-300 text-center p-2 rounded-l">
+                        {bid.bidder?.kyc?.name}
+                      </h1>
+                      <h1 className="w-2/5 border-2 border-gray-300 text-right p-2 rounded-r">
+                        {bid.bidPrice}
+                      </h1>
+                    </div>
                   </div>
                 ))
               )}

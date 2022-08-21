@@ -20,6 +20,7 @@ import utils.NumberUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
@@ -41,7 +42,7 @@ public class ProductController {
                 .getAll(
                         Math.max(pageNo, 1),
                         Math.max(view, 10)
-                );
+                ).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
     }
 
     @GetMapping("/categories")
@@ -72,12 +73,12 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto getById(@PathVariable(name = "id", required = true) int id) {
-        return this.productService.getById(id);
+        return ProductDto.fromDbWithRelations(this.productService.getById(id));
     }
 
     @GetMapping("/getByIdUser")
     public UserDto getByIdUser(@RequestParam(name = "id", required = true) int id) {
-        return this.productService.getById(id).getSeller();
+        return UserDto.fromDbWithRelations(this.productService.getById(id).getSeller());
     }
 
     @GetMapping("/getByName")
@@ -121,7 +122,7 @@ public class ProductController {
                 Math.max(pageNo, 1),
                 Math.max(view, 10),
                 id
-        );
+        ).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
     }
 
     //change product status

@@ -5,4 +5,7 @@ export type CreateProductDto = Omit<
   "id" | "sell_price" | "buyer" | "created_at" | "seller"
 >;
 
-export type CreateBidDto = Omit<IBid, "id" | "product" | "bidder">;
+export type CreateBidDto = Omit<
+  IBid,
+  "id" | "product" | "bidder" | "bidderId" | "createdAt"
+>;

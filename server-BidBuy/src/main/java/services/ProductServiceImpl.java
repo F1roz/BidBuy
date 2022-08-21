@@ -1,13 +1,11 @@
 package services;
 
 import dao.ProductDao;
-import dtos.ProductDto;
 import model.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -19,14 +17,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAll(int page, int viewPerPage) {
-        return productDao.getAll(page, viewPerPage).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
+    public List<Product> getAll(int page, int viewPerPage) {
+        return productDao.getAll(page, viewPerPage);
     }
 
     @Override
-    public List<ProductDto> getProductBySellerId(int page, int viewPerPage, int sellerId) {
+    public List<Product> getProductBySellerId(int page, int viewPerPage, int sellerId) {
 
-        return productDao.getProductBySellerId(page, viewPerPage, sellerId).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
+        return productDao.getProductBySellerId(page, viewPerPage, sellerId);
     }
 
     @Override
@@ -35,8 +33,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getById(int id) {
-        return ProductDto.fromDbWithRelations(productDao.getById(id));
+    public Product getById(int id) {
+        return productDao.getById(id);
     }
 
     @Override
@@ -61,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void changeStatus(int id, String status) {
-        productDao.changeStatus(id,status);
+        productDao.changeStatus(id, status);
     }
 }
 
