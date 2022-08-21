@@ -63,8 +63,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void sellProduct(int id, int buyerId) {
-        productDao.sellProduct(id, buyerId);
+    public void sellProduct(int id, int buyerId,float sellPrice) {
+        productDao.sellProduct(id, buyerId,sellPrice);
     }
 }
 

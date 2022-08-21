@@ -22,9 +22,11 @@ const ViewBid = () => {
     [],
     [productId]
   );
-  const handleSell = (buyerId: number) => {
+  const handleSell = (buyerId: number, sellPrice: number) => {
     jsxService()
-      .put(`product/sellProduct?id=${productId}&buyerId=${buyerId}`)
+      .put(
+        `product/sellProduct?id=${productId}&buyerId=${buyerId}&sellPrice=${sellPrice}`
+      )
       .then((res) => res.data)
       .then(console.log)
       .then(() => refetchBids())
@@ -117,7 +119,7 @@ const ViewBid = () => {
                       <button
                         onClick={() => {
                           if (!!bid && !!bid.bidder) {
-                            handleSell(bid.bidder.id);
+                            handleSell(bid.bidder.id, bid.bidPrice);
                           }
                         }}
                         className="ml-4 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300"

@@ -16,5 +16,5 @@ public interface ProductDao {
 
     public void changeStatus(int id, String status);
 
-    public void sellProduct(int id, int buyerId);
+    public void sellProduct(int id, int buyerId, float sellPrice);
 }

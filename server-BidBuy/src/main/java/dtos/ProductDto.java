@@ -22,7 +22,7 @@ public class ProductDto {
 
     private Float price;
 
-    private String sell_price;
+    private Float sellPrice;
 
     private String description;
 
@@ -41,7 +41,7 @@ public class ProductDto {
                 product.getCategory(),
                 product.getStatus(),
                 product.getPrice(),
-                product.getSell_price(),
+                product.getSellPrice(),
                 product.getDescription(),
                 null,
                 product.getCreated_at(),

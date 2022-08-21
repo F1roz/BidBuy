@@ -25,11 +25,12 @@ public class Product {
     private Float price;
 
     @Column(name = "sell_price")
-    private String sell_price;
+    private Float sellPrice;
 
     @Column(name = "description")
     private String description;
-
+//    @Column(name = "buyer_id",insertable = false, updatable = false)
+//    private int buyerId;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "buyer_id")
     private User buyer;
