@@ -23,4 +23,6 @@ public interface ProductService {
 
     public void changeStatus(int id, String status);
 
+    public void sellProduct(int id, int buyerId);
+
 }

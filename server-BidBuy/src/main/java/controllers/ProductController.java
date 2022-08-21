@@ -130,5 +130,10 @@ public class ProductController {
     public void changeStatus(@RequestParam(name = "id", required = true) int id, @RequestParam(name = "status", required = true) String status) {
         this.productService.changeStatus(id, status);
     }
+    //update buyer id
+    @PutMapping("/sellProduct")
+    public void updateBuyer(@RequestParam(name = "id", required = true) int id, @RequestParam(name = "buyerId", required = true) int buyerId) {
+        this.productService.sellProduct(id, buyerId);
+    }
 
 }

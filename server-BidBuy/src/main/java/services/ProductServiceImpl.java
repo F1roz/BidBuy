@@ -61,5 +61,10 @@ public class ProductServiceImpl implements ProductService {
     public void changeStatus(int id, String status) {
         productDao.changeStatus(id, status);
     }
+
+    @Override
+    public void sellProduct(int id, int buyerId) {
+        productDao.sellProduct(id, buyerId);
+    }
 }
 
