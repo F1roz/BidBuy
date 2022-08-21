@@ -19,6 +19,11 @@ public class Bid {
     @Column(name = "bid_price")
     private float bidPrice;
 
+    @Column(name = "productId", insertable = false, updatable = false)
+    private int productId;
+
+    @Column(name = "bidder_id", insertable = false, updatable = false)
+    private int bidderId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "productId")

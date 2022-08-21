@@ -44,12 +44,12 @@ public class BidDaoImpl implements BidDao {
     }
 
     @Override
-    public Bid getByProductId(int productId) {
+    public List<Bid> getByProductId(int productId) {
         return this.sessionFactory
                 .getCurrentSession()
                 .createQuery("from Bid where productId=:productId", Bid.class)
                 .setParameter("productId", productId)
-                .getSingleResult();
+                .getResultList();
     }
 
     @Override

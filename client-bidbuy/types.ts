@@ -35,11 +35,13 @@ export interface IProduct {
 export interface IBid {
   id: number;
   bidPrice: number;
+  productId: number | null;
   product: IProduct | null;
+  bidder: IUser | null;
+  bidderId: number | null;
 }
 
 export interface IProductCategory {
   id: number;
   name: string;
 }
-

@@ -1,12 +1,14 @@
 package controllers;
 
 import dtos.BidDto;
+import dtos.JwtPayloadDto;
+import lombok.RequiredArgsConstructor;
 import model.Bid;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import model.User;
+import org.springframework.web.bind.annotation.*;
 import services.BidService;
+import services.UserService;
+import utils.JwtUtils;
 import utils.NumberUtils;
 
 import java.util.List;
@@ -15,12 +17,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/bid")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class BidController {
     private final BidService bidService;
+    private final UserService userService;
 
-    public BidController(BidService bidService) {
-        this.bidService = bidService;
-    }
 
     @RequestMapping("/")
     public List<BidDto> getAll(
@@ -48,9 +49,9 @@ public class BidController {
         return this.bidService.getById(id);
     }
 
-    @RequestMapping("/getByProductID")
-    public List<Bid> getByProductID(@RequestParam(name = "productID", required = true) int productID) {
-        return (List<Bid>) this.bidService.getByProductId(productID);
+    @GetMapping("/getByProductID/{id}")
+    public List<Bid> getByProductID(@PathVariable String id) {
+        return this.bidService.getByProductId(Integer.parseInt(id));
     }
 
     @RequestMapping("/getBySellerId")
@@ -63,8 +64,11 @@ public class BidController {
         this.bidService.delete(id);
     }
 
-    @RequestMapping("/create")
-    public void save(@RequestParam(name = "bid", required = true) Bid bid) {
+    @PostMapping("/create")
+    public void save(@RequestBody Bid bid, @RequestHeader(name = "Authorization") String Authorization) {
+        JwtPayloadDto payload = JwtUtils.decode(Authorization);
+        User user = userService.getByUsername(payload.getUsername());
+        bid.setBidder(user);
         this.bidService.save(bid);
     }
 
