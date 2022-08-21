@@ -16,4 +16,5 @@ public interface ProductService {
     public void delete(int id);
     public void changeStatus(int id, String status);
 
+    List<ProductDto> getAllListedProduct(int page, int viewPerPage);
 }

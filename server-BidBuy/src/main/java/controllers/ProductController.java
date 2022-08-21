@@ -107,10 +107,24 @@ public class ProductController {
                 id
         );
     }
+    //get status approved product only
+    @GetMapping("/getAllListedProduct/")
+    public List<ProductDto> getAllListedProduct(@RequestParam(name = "page", required = false) String page,
+                                                 @RequestParam(name = "view", required = false) String viewPerPage) {
+        int pageNo = NumberUtils.stringToNumOrNeg(page);
+        int view = NumberUtils.stringToNumOrNeg(viewPerPage);
+        return this.productService.getAllListedProduct(
+                Math.max(pageNo, 1),
+                Math.max(view, 10)
+        );
+    }
+
+
     //change product status
     @PutMapping("/changeStatus")
     public void changeStatus(@RequestParam(name = "id", required = true) int id, @RequestParam(name = "status", required = true) String status) {
         this.productService.changeStatus(id,  status);
     }
+
 
 }

@@ -2,6 +2,7 @@ package dao;
 
 import model.Product;
 
+import java.util.Arrays;
 import java.util.List;
 
 public interface ProductDao {
@@ -15,4 +16,6 @@ public interface ProductDao {
     public void delete(int id);
 
     void changeStatus(int id, String status);
+
+    public List<Product> getAllListedProduct(int page, int viewPerPage);
 }

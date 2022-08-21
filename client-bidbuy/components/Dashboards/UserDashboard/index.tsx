@@ -14,7 +14,7 @@ const UserDashboard = () => {
     isSuccess,
     refetch,
     setData,
-  } = useAuthenticatedFetch<IProduct[]>("product/", [tokenRefreshed]);
+  } = useAuthenticatedFetch<IProduct[]>("product/getAllListedProduct/", [tokenRefreshed]);
 
   return (
     <Layout role="user">

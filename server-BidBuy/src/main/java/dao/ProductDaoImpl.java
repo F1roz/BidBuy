@@ -85,4 +85,17 @@ public class ProductDaoImpl implements ProductDao {
                 .executeUpdate();
     }
 
+    @Override
+    public List<Product> getAllListedProduct(int page, int viewPerPage) {
+        return this.sessionFactory
+                .getCurrentSession()
+                .createQuery(
+                        "FROM Product WHERE status='listed'",
+                        Product.class
+                )
+                .setMaxResults(viewPerPage)
+                .setFirstResult(((page-1)*viewPerPage))
+                .getResultList();
+    }
+
 }

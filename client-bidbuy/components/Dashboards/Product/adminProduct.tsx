@@ -20,7 +20,7 @@ const AdminProduct = () => {
   } = useAuthenticatedFetch<IProduct[]>("product/", [tokenRefreshed]);
 
   return (
-    <Layout role="user">
+    <Layout role="admin">
       <h1>asdasdasd</h1>
       <h1 className="mt-8">Products</h1>
       {isProductsLoading && <p>Loading products...</p>}

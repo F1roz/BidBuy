@@ -63,5 +63,10 @@ public class ProductServiceImpl implements ProductService {
     public void changeStatus(int id, String status) {
         productDao.changeStatus(id,status);
     }
+
+    @Override
+    public List<ProductDto> getAllListedProduct(int page, int viewPerPage) {
+        return productDao.getAllListedProduct(page, viewPerPage).stream().map(ProductDto::fromDbWithRelations).collect(Collectors.toList());
+    }
 }
 
