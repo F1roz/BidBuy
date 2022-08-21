@@ -17,4 +17,17 @@ public class ProductCategoryService {
     public List<ProductCategory> getAll() {
         return productCategoryDao.getAll();
     }
+
+    public void addOne(ProductCategory productCategory) {
+        productCategoryDao.addOne(productCategory);
+    }
+
+    public void update(ProductCategory productCategory) {
+        productCategoryDao.update(productCategory);
+    }
+
+    public void deleteOne(int id) {
+        System.out.println(id);
+        productCategoryDao.deleteOne(id);
+    }
 }

@@ -20,12 +20,11 @@ const AdminProduct = () => {
   } = useAuthenticatedFetch<IProduct[]>("product/", [tokenRefreshed]);
 
   return (
-    <Layout role="user">
-      <h1>asdasdasd</h1>
+    <Layout role="admin">
       <h1 className="mt-8">Products</h1>
       {isProductsLoading && <p>Loading products...</p>}
       <div className="overflow-x-auto relative shadow-md sm:rounded-lg m-7 p-8">
-        <div className="flex justify-between items-center pb-4 bg-white dark:bg-gray-900">
+        <div className="flex justify-between items-center pb-4 bg-white ">
           <div></div>
           <label htmlFor="table-search" className="sr-only">
             Search
@@ -33,7 +32,7 @@ const AdminProduct = () => {
           <div className="relative">
             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
               <svg
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                className="w-5 h-5 text-gray-500"
                 aria-hidden="true"
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -49,13 +48,13 @@ const AdminProduct = () => {
             <input
               type="text"
               id="table-search-users"
-              className="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Search for users"
             />
           </div>
         </div>
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th scope="col" className="py-3 px-6">
                 Username
@@ -103,10 +102,10 @@ const Productitem = ({ p }: { p: IProduct }) => {
 
   return (
     // eslint-disable-next-line react/jsx-key
-    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+    <tr className="bg-white border-b hover:bg-gray-50">
       <th
         scope="row"
-        className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white"
+        className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap"
       >
         <div className="pl-3">
           <div className="text-base font-semibold">{p.name}</div>
@@ -136,8 +135,8 @@ const Productitem = ({ p }: { p: IProduct }) => {
           type="button"
           className={`${
             p.status.trim() === "pending"
-              ? "focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-              : "focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+              ? "focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+              : "focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
           }`}
         >
           {p.status.trim() === "pending" ? "Approve" : "Reject"}

@@ -30,7 +30,7 @@ public class UserController {
         webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public List<UserDto> getAll(
             @RequestParam(name = "page", required = false) String page,
             @RequestParam(name = "view", required = false) String viewPerPage
@@ -44,27 +44,27 @@ public class UserController {
                 );
     }
 
-    @RequestMapping("/count")
+    @GetMapping("/count")
     public Integer getAllCount() {
         return this.userService.getAllCount();
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public UserDto getById(@PathVariable(name = "id", required = true) int id) {
         return this.userService.getById(id);
     }
 
-    @RequestMapping("/getByName")
+    @GetMapping("/getByName")
     public User getByName(@RequestParam(name = "name", required = true) String name) {
         return this.userService.getByUsername(name);
     }
 
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public void delete(@RequestParam(name = "id", required = true) int id) {
         this.userService.delete(id);
     }
 
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public void update(User user) {
         this.userService.update(user);
     }
@@ -74,11 +74,11 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         this.userService.save(user);
     }
-    @RequestMapping("/getIdByUsername")
+
+    @GetMapping("/getIdByUsername")
     public int getIdByUsername(@RequestParam(name = "username", required = true) String username) {
         return this.userService.getIdByUsername(username);
     }
-
 
 
 }
