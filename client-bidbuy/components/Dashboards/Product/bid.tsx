@@ -109,7 +109,6 @@ export default function BidNow() {
           <div className="pt-6">
             {/* <!-- Comment row --> */}
             <div className="media flex pb-4">
-              
               <div className="media-body">
                 <div>
                   <a
