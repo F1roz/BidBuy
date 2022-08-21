@@ -18,7 +18,7 @@ public class UserDto {
 
     private int id;
 
-    private String nid;
+    private int nid;
 
     private Kyc kyc;
 
@@ -38,7 +38,7 @@ public class UserDto {
         return user == null ? null : new UserDto(
                 user.getId(),
                 user.getNid(),
-                user.getKyc(),
+                null,
                 user.getEmail(),
                 user.getUsername(),
                 user.getPassword(),

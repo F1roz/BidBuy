@@ -1,10 +1,8 @@
 package controllers;
 
 
-import dao.UserDao;
 import dtos.JwtPayloadDto;
 import dtos.LoginDto;
-import dtos.UserDto;
 import model.Kyc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,9 +53,13 @@ public class AuthController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
     }
+
     //sign up
     @PostMapping("/sign-up")
-    public ResponseEntity<Map<String, String>> signUp(@RequestBody model.User user) {
+    public ResponseEntity<Map<String, String>> signUp(
+            @RequestBody model.User user,
+            @RequestParam(name = "nid") String nid
+    ) {
 
         Map<String, String> res = new HashMap<>();
         if (userService.existsByUsername(user.getUsername())) {
@@ -69,14 +71,19 @@ public class AuthController {
             res.put("message", "Email already exists");
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
-        Kyc kycRes = kycService.getByNumber(user.getNid());
-        if (kycRes==null) {
+        Kyc kycRes = kycService.getByNumber(nid);
+        if (kycRes == null) {
             res.put("message", "Invalid NID");
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
+        if (kycRes.getUser() != null) {
+            res.put("message", "Account already exists with NID");
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+        user.setNid(kycRes.getId());
 //        user.setKyc(kycRes);
-//        user.setType("user");
-//        userService.save(user);
+        user.setType("user");
+        userService.save(user);
         res.put("message", "User created successfully");
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
