@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import services.FirebaseService;
+import services.MailSenderService;
 
 import java.io.UnsupportedEncodingException;
 
@@ -18,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 public class TestController {
 
     private final FirebaseService firebaseService;
+    private final MailSenderService mail;
     private final String keyStr = "nb2ZIMfwdDYi6MNMAGJHFvnNh7jfX+BQWKo8Krl1xB8=";
 
     @GetMapping("/")
@@ -45,6 +47,12 @@ public class TestController {
     public String test2() {
         String name = "dfsbafb";
         return name.substring(name.lastIndexOf("."));
+    }
+
+    @GetMapping("/mail")
+    public String sendEmail(@RequestParam(name = "email", required = true) String email) {
+        System.out.println("Eamil:**************" + email);
+        return mail.sendEmail(email, "hi", "testing");
     }
 
 }
