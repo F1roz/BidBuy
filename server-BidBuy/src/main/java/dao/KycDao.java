@@ -48,7 +48,6 @@ public class KycDao {
 
     public Kyc getByNumber(String number) {
         try {
-
             return this.
                     sessionFactory.
                     getCurrentSession().
