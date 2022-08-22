@@ -76,10 +76,21 @@ public class AppConfig implements WebMvcConfigurer {
         transactionManager.setSessionFactory(sessionFactory().getObject());
         return transactionManager;
     }
+
     //config java mail sender
     @Bean
     public JavaMailSender javaMailSender() {
-        return new JavaMailSenderImpl();
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.sendgrid.net");
+        mailSender.setPort(25);
+        mailSender.setUsername("apikey");
+        mailSender.setPassword("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");
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "false");
+        props.put("mail.debug", "true");
+        return mailSender;
     }
 
 }
