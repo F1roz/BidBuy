@@ -30,7 +30,6 @@ export default function UserList() {
       }
     );
   };
-  console.log({ userList });
 
   return (
     <Layout role="admin">
