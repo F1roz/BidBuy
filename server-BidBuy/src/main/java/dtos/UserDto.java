@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.Kyc;
 import model.User;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class UserDto {
 
     private int nid;
 
-    private Kyc kyc;
+    private KycDto kyc;
 
     private String email;
 
@@ -53,7 +52,7 @@ public class UserDto {
         if (userDto == null) return null;
         userDto.setSoldProducts(user.getSoldProducts().stream().map(ProductDto::fromDb).collect(Collectors.toList()));
         userDto.setBoughtProducts(user.getBoughtProducts().stream().map(ProductDto::fromDb).collect(Collectors.toList()));
-        userDto.setKyc(user.getKyc());
+        userDto.setKyc(KycDto.fromDb(user.getKyc()));
         return userDto;
     }
 

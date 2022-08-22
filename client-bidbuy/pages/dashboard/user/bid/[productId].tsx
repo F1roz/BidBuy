@@ -31,9 +31,10 @@ const BidProduct = () => {
   });
   const handleAddBid = () => {
     if (!product) return;
+    if (!product.seller) return;
     if (!bids) return;
     if (!user) return;
-    if (product.seller === user.id) {
+    if (product.seller.username === user.username) {
       return toast.error("You can't bid on your own product");
     }
     if (addingBid.bidPrice <= product.price) {

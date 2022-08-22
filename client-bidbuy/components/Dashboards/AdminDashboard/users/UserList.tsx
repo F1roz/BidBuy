@@ -30,6 +30,8 @@ export default function UserList() {
       }
     );
   };
+  console.log({ userList });
+
   return (
     <Layout role="admin">
       <div className="overflow-x-auto relative shadow-md sm:rounded-lg m-7 p-8">

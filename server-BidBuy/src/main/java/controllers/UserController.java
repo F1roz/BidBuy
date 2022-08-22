@@ -10,6 +10,7 @@ import services.UserService;
 import utils.NumberUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -35,7 +36,7 @@ public class UserController {
                 .getAll(
                         Math.max(pageNo, 1),
                         Math.max(view, 10)
-                );
+                ).stream().map(UserDto::fromDbWithRelations).collect(Collectors.toList());
     }
 
     @GetMapping("/count")
@@ -45,7 +46,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserDto getById(@PathVariable(name = "id", required = true) int id) {
-        return this.userService.getById(id);
+        return UserDto.fromDbWithRelations(this.userService.getById(id));
     }
 
     @GetMapping("/getByName")
