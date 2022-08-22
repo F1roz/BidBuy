@@ -1,12 +1,14 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import Layout from "../../components/Layout";
 import { SignUpDto } from "../../dtos";
 import { authService, jsxService } from "../../service";
 import { toastZodErrors } from "../../utils/ZodUtils";
 const SignUp = () => {
+  const router = useRouter();
   const [config, setConfig] = useState<SignUpDto>({
     email: "",
     nid: "",
@@ -29,15 +31,24 @@ const SignUp = () => {
           path: ["Confirm"],
         })
         .parse(config);
-      authService.post(`auth/sign-up?nid=${nid}`, {
+      await authService.post(`auth/sign-up?nid=${nid}`, {
         email,
         password,
         username,
       });
+      toast.success("Sign Up Successful");
+      router.push(`/auth/login`);
     } catch (error) {
       console.log({ error });
-      toastZodErrors(error);
-      if (typeof error === "string") toast.error(error);
+      if (error instanceof ZodError) {
+        toastZodErrors(error);
+      } else {
+        if (typeof error === "string") toast.error(error);
+        const errorMessage = z
+          .string()
+          .safeParse((error as any).response.data.message);
+        if (errorMessage.success) toast.error(errorMessage.data);
+      }
     }
   };
   return (
@@ -161,31 +172,7 @@ const SignUp = () => {
                     }
                   />
                 </div>
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="terms"
-                      aria-describedby="terms"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      htmlFor="terms"
-                      className="font-light text-gray-500 dark:text-gray-300"
-                    >
-                      I accept the{" "}
-                      <a
-                        className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                        href="#"
-                      >
-                        Terms and Conditions
-                      </a>
-                    </label>
-                  </div>
-                </div>
+
                 <button
                   type="submit"
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
