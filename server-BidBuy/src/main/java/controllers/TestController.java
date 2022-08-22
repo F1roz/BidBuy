@@ -6,11 +6,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import services.FirebaseService;
+import services.MailSenderService;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLOutput;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,6 +21,8 @@ import java.io.UnsupportedEncodingException;
 public class TestController {
 
     private final FirebaseService firebaseService;
+    @Autowired
+    private final MailSenderService mail;
     private final String keyStr = "nb2ZIMfwdDYi6MNMAGJHFvnNh7jfX+BQWKo8Krl1xB8=";
 
     @GetMapping("/")
@@ -45,6 +50,12 @@ public class TestController {
     public String test2() {
         String name = "dfsbafb";
         return name.substring(name.lastIndexOf("."));
+    }
+    @PostMapping("/mail")
+    public String sendEmail(@RequestParam(name = "email", required = true)String email){
+        System.out.println("Eamil:**************" +email);
+        return mail.sendEmail(email,"hi","tesdt");
+
     }
 
 }
